@@ -2,7 +2,6 @@
 import { defineProps } from "vue";
 import { Link } from "@inertiajs/vue3";
 
-
 const props = defineProps({
     pagination: Object,
 });
@@ -11,7 +10,7 @@ const props = defineProps({
 <template>
     <nav class="relative flex justify-between">
         <div
-            class="flex items-center justify-center px-3 py-2 text-sm rounded-lg text-sky-900"
+            class="hidden sm:flex items-center justify-center px-3 py-2 text-sm rounded-lg text-sky-900"
         >
             Mostrando {{ pagination.from }} a {{ pagination.to }} de
             {{ pagination.total }} registros

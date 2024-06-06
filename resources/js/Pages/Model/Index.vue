@@ -2,42 +2,42 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ref, defineProps, onMounted, onUnmounted, reactive } from "vue";
 import Pagination from "@/Components/Pagination.vue";
-import BrandForm from "./BrandForm.vue";
+import ModelForm from "./ModelForm.vue";
 import Modal from "@/Components/Modal.vue";
 import Swal from "sweetalert2";
 import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
-    brands: Object,
     brandModels: Object,
+    brands: Object,
     texto: String,
 });
 
 const form = useForm({
-    brand: Object,
+    brandModel: Object,
 });
 
-let brandObj = ref(null);
+let brandModelObj = ref(null);
 let showModal = ref(false);
 let openMenuId = ref(null);
 let query = ref(props.texto);
 
-const toggleOptions = (brandId) => {
-    if (openMenuId.value === brandId) {
+const toggleOptions = (modelId) => {
+    if (openMenuId.value === modelId) {
         openMenuId.value = null;
     } else {
-        openMenuId.value = brandId;
+        openMenuId.value = modelId;
     }
 };
 
-const addBrand = () => {
-    brandObj.value = null;
+const addBrandModel = () => {
+    brandModelObj.value = null;
     showModal.value = true;
 };
 
-const editBrand = (brand) => {
+const editBrandModel = (model) => {
     openMenuId.value = null;
-    brandObj.value = brand;
+    brandModelObj.value = model;
     showModal.value = true;
 };
 
@@ -57,11 +57,10 @@ onUnmounted(() => {
 
 const closeModal = () => {
     showModal.value = false;
-    brandObj.value = null;
+    brandModelObj.value = null;
 };
 
-const deleteBrand = (brand) => {
-    openMenuId.value = null;
+const deleteBrandModel = (model) => {
     Swal.fire({
         title: "¿Estás seguro?",
         text: "No podrás revertir esto!",
@@ -73,7 +72,7 @@ const deleteBrand = (brand) => {
         cancelButtonText: "No, cancelar!",
     }).then((result) => {
         if (result.isConfirmed) {
-            form.delete(route("brands.destroy", brand), {
+            form.delete(route("brandmodels.destroy", model), {
                 preserveScroll: true,
             });
         }
@@ -81,28 +80,18 @@ const deleteBrand = (brand) => {
 };
 
 const search = () => {
-    form.get(route("brands.search", { texto: query.value }));
-};
-
-const goToIndex = () => {
-    form.get(route("brands.index"));
-};
-
-const asset = (path) => {
-    return `/storage/${path}`;
+    form.get(route("brandmodels.search", { text: query.value }));
 };
 </script>
 
 <template>
-    <AppLayout title="Brands">
+    <AppLayout title="Brand Models">
         <template #header>
             <div class="flex justify-between">
-                <h2 class="font-bold text-xl text-slate-500 ">
-                    Gestionar Marca
-                </h2>
+                <h2 class="font-bold text-xl text-slate-500">Gestionar Modelos de Marca</h2>
                 <button
                     class="bg-green-100 hover:bg-green-200 w-12 rounded-md shadow-abajo-1"
-                    @click="goToIndex"
+                    @click="() => form.get(route('brandmodels.index'))"
                 >
                     <v-icon
                         class="text-slate-500"
@@ -137,7 +126,7 @@ const asset = (path) => {
                         <div>
                             <button
                                 class="bg-blue-100 shadow-abajo-1 p-2 text-slate-500 font-bold rounded-lg flex items-center hover:bg-blue-200 cursor-pointer"
-                                @click="addBrand"
+                                @click="addBrandModel"
                             >
                                 <v-icon
                                     name="io-add-circle-sharp"
@@ -160,58 +149,48 @@ const asset = (path) => {
                                                 scope="col"
                                                 class="px-6 py-2 text-left text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
                                             >
+                                                marca
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-left text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
                                                 nombre
                                             </th>
                                             <th
                                                 scope="col"
                                                 class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
                                             >
-                                                Logo
+                                                Código
                                             </th>
-                                            <th
-                                                scope="col"
-                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
-                                            >
-                                                descripcion
-                                            </th>
-                                            <th scope="col" class="border-l"></th>
+                                            <th class="border-l"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-3D-50 divide-gray-200">
                                         <tr
-                                            v-for="brand in brands.data"
-                                            :key="brand.id"
+                                            v-for="brandModel in brandModels.data"
+                                            :key="brandModel.id"
                                             class="bg-3D-50 hover:bg-blue-50 border-2 shadow-abajo-2"
                                         >
                                             <td
                                                 class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap"
                                             >
-                                                {{ brand.name }}
+                                                {{ brandModel.brand.name }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap"
+                                            >
+                                                {{ brandModel.name }}
                                             </td>
                                             <td
                                                 class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap flex items-center justify-center"
                                             >
-                                                <img
-                                                    :src="
-                                                        brand.logo
-                                                            ? brand.logo
-                                                            : asset(
-                                                                  'default.png'
-                                                              )
-                                                    "
-                                                    alt="Logo de la marca"
-                                                    class="w-12 h-12 object-cover rounded-md"
-                                                />
-                                            </td>
-                                            <td
-                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap text-center"
-                                            >
-                                                {{ brand.description }}
+                                                {{ brandModel.code }}
                                             </td>
                                             <td
                                                 class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
                                             >
-                                                <div
+<!--                                                 <div
                                                     class="flex items-center justify-center gap-x-3"
                                                 >
                                                     <div class="relative group">
@@ -266,12 +245,12 @@ const asset = (path) => {
                                                             Eliminar zonal
                                                         </span>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </td>
                                         </tr>
-                                        <tr v-if="brands.data.length <= 0">
+                                        <tr v-if="brandModels.data.length <= 0">
                                             <td
-                                                class="text-center font-bold text-slate-500 text-md sm:text-lg bg-3D-50 shadow-abajo-2"
+                                                class="text-center font-bold text-slate-500 text-md sm:text-lg bg-3D-500 shadow-abajo-2"
                                                 colspan="5"
                                             >
                                                 No hay registros
@@ -281,84 +260,13 @@ const asset = (path) => {
                                 </table>
                             </div>
                         </div>
-                        <div class="block sm:hidden rounded-lg">
-                            <div
-                                v-for="brand in brands.data"
-                                :key="brand.id"
-                                class="p-4 mx-1 mt-4 bg-blue-50 hover:bg-blue-100 rounded-lg relative shadow-abajo-1"
-                            >
-                                <!-- Contenido de la tarjeta -->
-                                <div class="flex items-center space-x-2 mb-4">
-                                    <svg
-                                        class="h-6 w-6 text-sky-500"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M3 7h18M3 12h18m-9 5h9"
-                                        />
-                                    </svg>
-                                    <h3 class="text-lg font-bold text-slate-700">
-                                        Nombre:
-                                        <span class="font-normal text-gray-600">{{
-                                            brand.name
-                                        }}</span>
-                                    </h3>
-                                </div>
-                                <!-- Detalles de la tarjeta -->
-                                <div class="text-md text-slate-700">
-                                    <p>
-                                        <strong>Descripcion:</strong>
-                                        <span class="text-gray-600 ml-1">{{
-                                            brand.description
-                                        }}</span>
-                                    </p>
-                                </div>
-                                <!-- Menú de tres puntos -->
-                                <div class="absolute top-0 right-0 p-2 z-10">
-                                    <button
-                                        @click="toggleOptions(brand.id)"
-                                        class="text-gray-600 hover:text-gray-900 shadow-md shadow-sky-100"
-                                    >
-                                        <v-icon name="oi-apps" />
-                                    </button>
-                                    <div
-                                        v-if="openMenuId === brand.id"
-                                        class="bg-white flex justify-between shadow-abajo-1 rounded-lg absolute right-0 mt-1 w-[86px] z-20 text-center"
-                                    >
-                                        <a
-                                            href="#"
-                                            @click="editBrand(brand)"
-                                            class="block px-3 py-1 text-sm text-slate-500 bg-yellow-200 hover:bg-yellow-300 rounded-l-lg"
-                                        >
-                                            <v-icon
-                                                name="md-modeedit-round"
-                                                class="text-slate-500"
-                                            />
-                                        </a>
-                                        <a
-                                            href="#"
-                                            @click="deleteBrand(brand)"
-                                            class="block px-3 py-1 text-sm text-slate-500 bg-red-300 hover:bg-red-400 rounded-r-lg"
-                                        >
-                                            <v-icon
-                                                name="bi-trash"
-                                                class="text-slate-500"
-                                            />
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <Pagination class="mt-2" :pagination="brands" />
+
+                        <Pagination class="mt-2" :pagination="brandModels" />
                     </div>
                     <Modal :show="showModal">
-                        <BrandForm
-                            :brand="brandObj"
+                        <ModelForm
+                            :brandModel="brandModelObj"
+                            :brands="brands"
                             @close-modal="closeModal"
                         />
                     </Modal>

@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Brand extends Model
+class Brandmodel extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function brandmodels(): HasMany
+    public function brand(): BelongsTo
     {
-        return $this->hasMany(Brandmodel::class);
+        return $this->belongsTo(Brand::class);
     }
 }

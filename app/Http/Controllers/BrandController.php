@@ -48,7 +48,8 @@ class BrandController extends Controller
 
             if ($request->hasFile('logo')) {
                 if ($brand->logo) {
-                    Storage::delete($brand->logo);
+                    $relativePath = str_replace('/storage/', '', $brand->logo);
+                    Storage::disk('public')->delete($relativePath);
                 }
                 $image = $request->file('logo')->store('brands_logo', 'public');
                 $brand->logo = Storage::url($image);
@@ -62,16 +63,29 @@ class BrandController extends Controller
         }
     }
 
-    public function destroy(Brand $brand)
+    public function destroy(Brand $brand): RedirectResponse
     {
         try {
             if ($brand->logo) {
-                Storage::delete($brand->logo);
+                $relativePath = str_replace('/storage/', '', $brand->logo);
+                Storage::disk('public')->delete($relativePath);
             }
             $brand->delete();
             return redirect()->route('brands.index')->with('toast', ['Marca eliminada exitosamente!', 'success']);
         } catch (QueryException $e) {
             return redirect()->back()->with('toast', ['Ocurrió un error al eliminar la marca!', 'danger']);
         }
+    }
+
+    public function search(Request $request): Response
+    {
+        $texto = $request->get('texto');
+        $brands = Brand::where('name', 'like', '%' . $texto . '%')
+            ->orWhere('description', 'like', '%' . $texto . '%')
+            ->orderBy("id", "desc")
+            ->paginate(7)
+            ->appends(['texto' => $texto]);
+
+        return Inertia::render('Brand/Index', compact('brands', 'texto'));
     }
 }

@@ -14,6 +14,7 @@ defineProps({
 });
 
 const showingNavigationDropdown = ref(false);
+const showVehicles = ref(false);
 
 const switchToTeam = (team) => {
     router.put(
@@ -54,7 +55,7 @@ const logout = () => {
                                     !showingNavigationDropdown
                             "
                             type="button"
-                            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden bg-3D-50 focus:outline-none focus:ring-2 focus:ring-gray-200 "
+                            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden bg-3D-50 focus:outline-none focus:ring-2 focus:ring-gray-200"
                         >
                             <span class="sr-only">Open sidebar</span>
                             <svg
@@ -76,6 +77,11 @@ const logout = () => {
                             class="flex ms-2 md:me-24"
                         >
                             <ApplicationMark class="block h-9 w-auto" />
+                            <p
+                                class="p-1 text-2xl font-bold text-slate-500 ml-3"
+                            >
+                                ReciTrack
+                            </p>
                         </Link>
                     </div>
                     <div class="flex items-center">
@@ -87,7 +93,7 @@ const logout = () => {
                                             $page.props.jetstream
                                                 .managesProfilePhotos
                                         "
-                                        class="flex text-sm bg-3D-50 rounded-full focus:ring-4 focus:ring-gray-300 "
+                                        class="flex text-sm bg-3D-50 rounded-full focus:ring-4 focus:ring-gray-300"
                                         aria-expanded="false"
                                     >
                                         <span class="sr-only"
@@ -164,44 +170,101 @@ const logout = () => {
             class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-3D-50 border-r border-gray-200 md:translate-x-0 shadow-abajo-1"
             aria-label="Sidebar"
         >
-            <div
-                class="h-full px-3 pb-4 overflow-y-auto bg-3D-50"
-            >
+            <div class="h-full px-3 pb-4 overflow-y-auto bg-3D-50">
                 <ul class="space-y-3 font-medium p-2">
                     <li class="">
                         <NavLink
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
-                            class="flex items-center p-2 text-slate-700 rounded-lg bg-3D-50  hover:bg-blue-100 font-bold group w-full shadow-abajo-2 hover:shadow-abajo-1"
+                            class="flex items-center p-3 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-2 hover:shadow-abajo-1"
                         >
-                            <v-icon name="io-desktop" class="text-slate-500 hover:text-slate-600" />
-                            <span class="ms-3">Dashboard</span>
+                            <div class="mt-[3px] -mb-[6px] text-lg">
+                                <v-icon
+                                    name="io-desktop"
+                                    class="text-slate-500 hover:text-slate-600 mx-[6px]"
+                                />
+                                <span class="ms-2">Dashboard</span>
+                            </div>
                         </NavLink>
                     </li>
-                    <li class="">
-                        <NavLink
-                            :href="route('brands.index')"
-                            :active="route().current('brands.index')"
-                            class="flex items-center p-2 text-slate-700 rounded-lg bg-3D-50  hover:bg-blue-100 font-bold group w-full shadow-abajo-2 hover:shadow-abajo-1"
+                    <li class="shadow-abajo-2 rounded-lg">
+                        <button
+                            @click="showVehicles = !showVehicles"
+                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-2 hover:shadow-abajo-1"
                         >
-                            <v-icon name="io-desktop" class="text-slate-500 hover:text-slate-600" />
-                            <span class="ms-3">Marcas</span>
-                        </NavLink>
+                            <div class="">
+                                <v-icon
+                                    name="io-car-sport-sharp"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                                <span class="ms-3">Vehiculos</span>
+                            </div>
+                            <div class="">
+                                <v-icon
+                                    v-if="!showVehicles"
+                                    name="hi-solid-plus-sm"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                                <v-icon
+                                    v-else
+                                    name="hi-minus-sm"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                            </div>
+                        </button>
+                        <div v-if="showVehicles" class="flex flex-col">
+                            <NavLink
+                                :href="route('brands.index')"
+                                :active="route().current('brands.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="io-desktop"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Marca</p>
+                                </div>
+                            </NavLink>
+                            <NavLink
+                                :href="route('brandmodels.index')"
+                                :active="route().current('brandmodels.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="io-desktop"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Modelo</p>
+                                </div>
+                            </NavLink>
+                        </div>
                     </li>
                 </ul>
             </div>
         </aside>
 
         <div class="p-5 md:ml-64">
-            <header v-if="$slots.header" class=" shadow-arriba-2xl rounded-lg">
+            <header v-if="$slots.header" class="shadow-abajo-1 rounded-lg">
                 <div class="mt-14 rounded-lg bg-3D-50 p-4">
                     <slot name="header" />
                 </div>
             </header>
 
-            <main >
+            <main>
                 <slot />
             </main>
         </div>
     </div>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+    opacity: 0;
+}
+</style>

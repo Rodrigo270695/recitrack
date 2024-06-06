@@ -7,25 +7,26 @@ import { useForm } from "@inertiajs/vue3";
 import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
-    brand: Object,
+    brandModel: Object,
+    brands: Object,
 });
 
 const form = useForm({
-    _method: props.brand ? 'PUT' : 'POST',
-    id: props.brand ? props.brand.id : "",
-    name: props.brand ? props.brand.name : "",
-    description: props.brand ? props.brand.description : "",
-    logo: null,
+    id: props.brandModel ? props.brandModel.id : "",
+    name: props.brandModel ? props.brandModel.name : "",
+    code: props.brandModel ? props.brandModel.code : "",
+    description: props.brandModel ? props.brandModel.description : "",
+    brand_id: props.brandModel ? props.brandModel.brand_id : "",
 });
 
 const submit = () => {
-    if (props.brand) {
-        form.put(route("brands.update", props.brand), {
+    if (props.brandModel) {
+        form.put(route("brandmodels.update", props.brandModel), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });
     } else {
-        form.post(route("brands.store"), {
+        form.post(route("brandmodels.store"), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });
@@ -38,10 +39,6 @@ const toTitleCase = (str) => {
     });
 };
 
-const handleFileChange = (event) => {
-    form.logo = event.target.files[0];
-};
-
 const emit = defineEmits(["close-modal"]);
 
 </script>
@@ -49,7 +46,7 @@ const emit = defineEmits(["close-modal"]);
 <template>
     <div class="flex justify-between bg-slate-300 h-12 px-4">
         <div class="text-lg sm:text-xl text-slate-500 font-bold inline-flex items-center">
-            {{ form.id == 0 ? "Registrar Marca" : "Actualizar Marca" }}
+            {{ form.id == 0 ? "Registrar Modelo" : "Actualizar Modelo" }}
         </div>
         <button @click="emit('close-modal')" >
             <v-icon
@@ -64,6 +61,29 @@ const emit = defineEmits(["close-modal"]);
             <div class="mb-4">
                 <div class="grid grid-cols-6 gap-3">
                     <div class="col-span-6 sm:col-span-6">
+                        <InputLabel value="Zonal" />
+                        <select
+                            id="select"
+                            v-model="form.brand_id"
+                            class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+                        >
+                            <option disabled selected value="">
+                                Elija una opción
+                            </option>
+                            <option
+                                v-for="brand in brands"
+                                :key="brand.id"
+                                :value="brand.id"
+                            >
+                                {{ brand.name }}
+                            </option>
+                        </select>
+                        <InputError
+                            class="w-full"
+                            :message="form.errors.brand_id"
+                        />
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
                         <InputLabel value="Nombre" class="text-slate-500 font-bold"/>
                         <TextInput
                             class="w-full"
@@ -75,6 +95,17 @@ const emit = defineEmits(["close-modal"]);
                             :message="form.errors.name"
                         />
                     </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <InputLabel value="Código" class="text-slate-500 font-bold"/>
+                        <TextInput
+                            class="w-full"
+                            v-model="form.code"
+                        />
+                        <InputError
+                            class="w-full"
+                            :message="form.errors.code"
+                        />
+                    </div>
                     <div class="col-span-6 sm:col-span-6">
                         <InputLabel value="Descripción" class="text-slate-500 font-bold"/>
                         <TextArea
@@ -84,19 +115,6 @@ const emit = defineEmits(["close-modal"]);
                         <InputError
                             class="w-full"
                             :message="form.errors.description"
-                        />
-                    </div>
-                    <div class="col-span-6 sm:col-span-6">
-                        <InputLabel value="Logo" class="text-slate-500 font-bold"/>
-                        <TextInput
-                            type="file"
-                            class="w-full file:bg-transparent file:border-none file:px-1 file:mt-2 file:p-0 file:shadow-abajo-1 file:rounded-md file:text-slate-500 file:font-bold file:hover:text-slate-500  file:cursor-pointer"
-                            @change="handleFileChange"
-                            accept="image/*"
-                        />
-                        <InputError
-                            class="w-full"
-                            :message="form.errors.logo"
                         />
                     </div>
                 </div>

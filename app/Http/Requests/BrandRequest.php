@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class BrandRequest extends FormRequest
@@ -10,7 +11,7 @@ class BrandRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     public function rules(): array
@@ -20,7 +21,7 @@ class BrandRequest extends FormRequest
                 'required',
                 'min:3',
                 'max:50',
-                Rule::unique('brands')->ignore($this->brand ? $this->brand->id : null),
+                Rule::unique('brands')->ignore($this->route('brand')),
             ],
             'description' => 'nullable|string',
             'logo' => 'nullable|max:3072',

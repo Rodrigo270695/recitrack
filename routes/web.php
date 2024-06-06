@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\BrandmodelController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,6 +29,10 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
+    Route::get('brands/search', [BrandController::class, 'search' ])->name('brands.search');
     Route::resource('brands', BrandController::class);
+
+    Route::get('brandmodels/search', [BrandmodelController::class, 'search' ])->name('brandmodels.search');
+    Route::resource('brandmodels', BrandmodelController::class);
 
 });
