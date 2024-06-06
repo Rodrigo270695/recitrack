@@ -21,7 +21,7 @@ onMounted(() => {
 
 <template>
 
-    <div id="toast-default" class="flex items-center w-full max-w-xs p-4 text-gray-500 rounded-lg shadow white:text-gray-400 white:bg-gray-800" role="alert" :class="{ ' bg-green-200': action == 'success', ' bg-red-200': action == 'danger', ' bg-orange-200': action == 'warning'}">
+    <div id="toast-default" class="flex items-center w-full max-w-xs p-4 text-gray-500 rounded-lg shadow white:text-gray-400 white:bg-gray-800 mt-14" role="alert" :class="{ ' bg-green-200': action == 'success', ' bg-red-200': action == 'danger', ' bg-orange-200': action == 'warning'}">
 
         <div v-if="action == 'success'" class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-100 dark:text-green-600">
             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

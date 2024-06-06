@@ -1,0 +1,268 @@
+<script setup>
+import AppLayout from '@/Layouts/AppLayout.vue';
+import { ref, defineProps, onMounted, onUnmounted, reactive } from "vue";
+import Pagination from "@/Components/Pagination.vue";
+import BrandForm from "./BrandForm.vue";
+import Modal from "@/Components/Modal.vue";
+import Swal from "sweetalert2";
+import { useForm } from "@inertiajs/vue3";
+
+const props = defineProps({
+    brands: Object,
+    texto: String,
+});
+
+const form = useForm({
+    brand: Object,
+});
+
+let brandObj = ref(null);
+let showModal = ref(false);
+let openMenuId = ref(null);
+let query = ref(props.texto);
+
+const toggleOptions = (brandId) => {
+    if (openMenuId.value === brandId) {
+        openMenuId.value = null;
+    } else {
+        openMenuId.value = brandId;
+    }
+};
+
+const addBrand = () => {
+    brandObj.value = null;
+    showModal.value = true;
+};
+
+const editBrand = (brand) => {
+    openMenuId.value = null;
+    brandObj.value = brand;
+    showModal.value = true;
+};
+
+const onKeydown = (e) => {
+    if (e.key === "Escape") {
+        closeModal();
+    }
+};
+
+onMounted(() => {
+    window.addEventListener("keydown", onKeydown);
+});
+
+onUnmounted(() => {
+    window.removeEventListener("keydown", onKeydown);
+});
+
+
+const closeModal = () => {
+    showModal.value = false;
+    brandObj.value = null;
+};
+
+const deleteBrand = (brand) => {
+    openMenuId.value = null;
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, eliminar!",
+        cancelButtonText: "No, cancelar!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.delete(route("brands.destroy", brand), {
+                preserveScroll: true,
+            });
+        }
+    });
+};
+
+const goToIndex = () => {
+    form.get(route("brands.index"));
+};
+
+const asset = (path) => {
+    return `/storage/${path}`;
+};
+</script>
+
+<template>
+    <AppLayout title="Brands">
+        <div class="pt-16">
+            <div class="">
+                <div class="bg-3D-50 overflow-hidden shadow-abajo-2 sm:rounded-lg">
+
+                    <div class="flex justify-between font-extrabold px-4 py-2" title="Refrescar la página">
+                        <div
+                            class="h-11 inline-flex items-center w-full"
+                        >
+                            <h2 class="text-xl sm:text-2xl text-slate-500">Gestionar Zonal</h2>
+                        </div>
+                        <button class="bg-green-100 hover:bg-green-200 w-12 rounded-md shadow-abajo-1" @click="goToIndex">
+                            <v-icon class="text-slate-500" name="io-reload-circle-sharp" scale="1.7"/>
+                        </button>
+                    </div>
+
+                    <div class="flex justify-between py-2 px-3 my-3">
+                        <div class="relative">
+                            <input
+                                type="text"
+                                v-model="query"
+                                class="w-64 md:w-72 lg:w-96 hover:border-slate-200 focus:border-blue-50 bg-3D-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none shadow-abajo-2 text-slate-500 border-slate-200 font-bold"
+                                placeholder="Buscar Zonal"
+                                @input="query = query.toUpperCase()"
+                                @keyup.enter="search"
+                            />
+                            <button
+                                @click.prevent="search"
+                                class="absolute inset-y-0 right-0 px-3 flex items-center text-slate-500 bg-blue-100 rounded-e-md hover:bg-blue-200 shadow-abajo-1"
+                            >
+                                <v-icon
+                                    name="fa-search"
+                                    scale="1.5"
+                                />
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                class="bg-blue-100 shadow-abajo-1 p-2 text-slate-500 font-bold rounded-lg flex items-center hover:bg-blue-200 cursor-pointer"
+                                @click="addBrand"
+                            >
+                                <v-icon
+                                    name="io-add-circle-sharp"
+                                    scale="1.1"
+                                />
+                                <p class="sm:block hidden ml-2">agregar</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-3">
+                        <div class="hidden sm:block ">
+                            <div class="overflow-x-auto rounded-lg ">
+                                <table
+                                    class="min-w-full divide-y divide-gray-200 "
+                                >
+                                    <thead class="bg-3D-50 shadow-abajo-2">
+                                        <tr class="">
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-left text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
+                                                nombre
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
+                                                Logo
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
+                                                descripcion
+                                            </th>
+                                            <th class="border-l"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody
+                                        class="bg-3D-50 divide-gray-200"
+                                    >
+                                        <tr
+                                            v-for="brand in brands.data"
+                                            :key="brand.id"
+                                            class="bg-3D-50 hover:bg-blue-50 border-2"
+                                        >
+                                            <td
+                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap"
+                                            >
+                                                {{ brand.name }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap flex items-center justify-center"
+                                            >
+                                                <img
+                                                    :src="brand.logo ? brand.logo : asset('default.png')"
+                                                    alt="Logo de la marca"
+                                                    class="w-12 h-12 object-cover rounded-md "
+                                                >
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
+                                                {{ brand.description }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
+                                            </td>
+                                            <td
+                                                class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
+                                            >
+                                                <div class="flex items-center justify-center gap-x-3">
+                                                    <div class="relative group">
+                                                        <button
+                                                            class="bg-yellow-200 text-slate-500 p-1 rounded-md hover:bg-yellow-300 cursor-pointer shadow-abajo-1"
+                                                            @click="editBrand(brand)"
+                                                        >
+                                                            <v-icon
+                                                                name="md-modeedit-round"
+                                                            />
+                                                            <span class="absolute bottom-full mb-2 hidden group-hover:block w-auto p-2 text-xs text-white bg-sky-950 rounded-md"
+                                                                style="left: 50%; transform: translateX(-50%); transition: opacity 0.3s;">
+                                                                Editar Zonal
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="relative group">
+                                                        <button
+                                                            class="bg-red-300 text-slate-500 p-1 rounded-md hover:bg-red-400 shadow-abajo-1 cursor-pointer"
+                                                            @click="
+                                                                deleteBrand(brand)
+                                                            "
+                                                        >
+                                                            <v-icon
+                                                                name="bi-trash"
+                                                            />
+                                                        </button>
+                                                        <span class="absolute bottom-full mb-2 hidden group-hover:block w-auto p-2 text-xs text-white bg-sky-950 rounded-md"
+                                                            style="left: 50%; transform: translateX(-50%); transition: opacity 0.3s;">
+                                                            Eliminar zonal
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="brands.data.length <= 0">
+                                            <td
+                                                class="text-center font-bold text-slate-500 text-md sm:text-lg bg-3D-50 shadow-abajo-2"
+                                                colspan="5"
+                                            >
+                                                No hay registros
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="block sm:hidden">
+
+                        </div>
+                        <Pagination class="mt-2" :pagination="brands" />
+                    </div>
+                    <Modal :show="showModal">
+                        <BrandForm
+                            :brand="brandObj"
+                            @close-modal="closeModal"
+                        />
+                    </Modal>
+
+                </div>
+            </div>
+        </div>
+    </AppLayout>
+</template>

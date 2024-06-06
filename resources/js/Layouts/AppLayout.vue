@@ -17,7 +17,7 @@ const showingNavigationDropdown = ref(false);
 
 const switchToTeam = (team) => {
     router.put(
-        route("current-team.update"),
+        router("current-team.update"),
         {
             team_id: team.id,
         },
@@ -28,7 +28,7 @@ const switchToTeam = (team) => {
 };
 
 const logout = () => {
-    router.post(route("logout"));
+    router.post(router("logout"));
 };
 </script>
 
@@ -41,7 +41,7 @@ const logout = () => {
         <ToastList />
 
         <nav
-            class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-white dark:border-slate-400"
+            class="fixed top-0 z-50 w-full bg-3D-50 border-b border-gray-200 shadow-abajo-1"
         >
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
                 <div class="flex items-center justify-between">
@@ -54,7 +54,7 @@ const logout = () => {
                                     !showingNavigationDropdown
                             "
                             type="button"
-                            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-white dark:focus:ring-white"
+                            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden bg-3D-50 focus:outline-none focus:ring-2 focus:ring-gray-200 "
                         >
                             <span class="sr-only">Open sidebar</span>
                             <svg
@@ -87,7 +87,7 @@ const logout = () => {
                                             $page.props.jetstream
                                                 .managesProfilePhotos
                                         "
-                                        class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                                        class="flex text-sm bg-3D-50 rounded-full focus:ring-4 focus:ring-gray-300 "
                                         aria-expanded="false"
                                     >
                                         <span class="sr-only"
@@ -105,7 +105,7 @@ const logout = () => {
                                     <span v-else class="inline-flex rounded-md">
                                         <button
                                             type="button"
-                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
+                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-3D-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
                                         >
                                             {{ $page.props.auth.user.name }}
                                             <svg
@@ -161,45 +161,45 @@ const logout = () => {
                 '-translate-x-full': !showingNavigationDropdown,
                 'translate-x-0': showingNavigationDropdown,
             }"
-            class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-white border-r border-gray-200 sm:translate-x-0 "
+            class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-3D-50 border-r border-gray-200 md:translate-x-0 shadow-abajo-1"
             aria-label="Sidebar"
         >
             <div
-                class="h-full px-3 pb-4 overflow-y-auto bg-white "
+                class="h-full px-3 pb-4 overflow-y-auto bg-3D-50"
             >
-                <ul class="space-y-2 font-medium">
-                    <li>
+                <ul class="space-y-3 font-medium p-2">
+                    <li class="">
                         <NavLink
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
-                            class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group w-full"
+                            class="flex items-center p-2 text-slate-700 rounded-lg bg-3D-50  hover:bg-blue-100 font-bold group w-full shadow-abajo-2 hover:shadow-abajo-1"
                         >
-                            <svg
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 "
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 22 21"
-                            >
-                                <path
-                                    d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0  9.039 9.039.999.999 0 0 0-1-1.066h.002Z"
-                                />
-                            </svg>
+                            <v-icon name="io-desktop" class="text-slate-500 hover:text-slate-600" />
                             <span class="ms-3">Dashboard</span>
+                        </NavLink>
+                    </li>
+                    <li class="">
+                        <NavLink
+                            :href="route('brands.index')"
+                            :active="route().current('brands.index')"
+                            class="flex items-center p-2 text-slate-700 rounded-lg bg-3D-50  hover:bg-blue-100 font-bold group w-full shadow-abajo-2 hover:shadow-abajo-1"
+                        >
+                            <v-icon name="io-desktop" class="text-slate-500 hover:text-slate-600" />
+                            <span class="ms-3">Marcas</span>
                         </NavLink>
                     </li>
                 </ul>
             </div>
         </aside>
 
-        <div class="p-4 sm:ml-64">
-            <header v-if="$slots.header" class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="p-5 md:ml-64">
+            <header v-if="$slots.header" class=" shadow-arriba-2xl rounded-lg">
+                <div class="mt-14 rounded-lg bg-3D-50 p-4">
                     <slot name="header" />
                 </div>
             </header>
 
-            <main>
+            <main >
                 <slot />
             </main>
         </div>
