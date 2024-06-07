@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name','50')->unique();
             $table->string('code','50')->unique();
             $table->text('description')->nullable();
-            $table->foreignId('brand_id')->constrained()->onDelete('cascade');
+            $table->foreignId('brand_id')->constrained()->onDelete('restrict');
             $table->timestamps();
         });
     }

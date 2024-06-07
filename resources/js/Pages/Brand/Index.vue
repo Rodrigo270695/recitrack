@@ -123,7 +123,7 @@ const asset = (path) => {
                                 type="text"
                                 v-model="query"
                                 class="w-64 md:w-72 lg:w-96 hover:border-slate-200 focus:border-blue-50 bg-3D-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none shadow-abajo-2 text-slate-500 border-slate-200 font-bold"
-                                placeholder="Buscar Zonal"
+                                placeholder="Buscar Marca"
                                 @input="query = query.toUpperCase()"
                                 @keyup.enter="search"
                             />

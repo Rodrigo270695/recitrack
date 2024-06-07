@@ -73,7 +73,7 @@ class BrandController extends Controller
             $brand->delete();
             return redirect()->route('brands.index')->with('toast', ['Marca eliminada exitosamente!', 'success']);
         } catch (QueryException $e) {
-            return redirect()->back()->with('toast', ['Ocurrió un error al eliminar la marca!', 'danger']);
+            return redirect()->back()->with('toast', ['No se puede eliminar la marca, ya que tiene modelos asociados!', 'danger']);
         }
     }
 
