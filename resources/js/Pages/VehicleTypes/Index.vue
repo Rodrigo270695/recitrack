@@ -2,42 +2,41 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ref, defineProps, onMounted, onUnmounted, reactive } from "vue";
 import Pagination from "@/Components/Pagination.vue";
-import BrandForm from "./BrandForm.vue";
+import VehicleTypeForm from "./VehicleTypeForm.vue";
 import Modal from "@/Components/Modal.vue";
 import Swal from "sweetalert2";
 import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
-    brands: Object,
-    brandModels: Object,
+    vehicletypes: Object,
     texto: String,
 });
 
 const form = useForm({
-    brand: Object,
+    vehicletype: Object,
 });
 
-let brandObj = ref(null);
+let vehicletypesObj = ref(null);
 let showModal = ref(false);
 let openMenuId = ref(null);
 let query = ref(props.texto);
 
-const toggleOptions = (brandId) => {
-    if (openMenuId.value === brandId) {
+const toggleOptions = (vehicletypesId) => {
+    if (openMenuId.value === vehicletypesId) {
         openMenuId.value = null;
     } else {
-        openMenuId.value = brandId;
+        openMenuId.value = vehicletypesId;
     }
 };
 
-const addBrand = () => {
-    brandObj.value = null;
+const addVehicleType = () => {
+    vehicletypesObj.value = null;
     showModal.value = true;
 };
 
-const editBrand = (brand) => {
+const editVehicleType = (vehicletypes) => {
     openMenuId.value = null;
-    brandObj.value = brand;
+    vehicletypesObj.value = vehicletypes;
     showModal.value = true;
 };
 
@@ -57,10 +56,10 @@ onUnmounted(() => {
 
 const closeModal = () => {
     showModal.value = false;
-    brandObj.value = null;
+    vehicletypesObj.value = null;
 };
 
-const deleteBrand = (brand) => {
+const deleteVehicleType = (vehicletypes) => {
     openMenuId.value = null;
     Swal.fire({
         title: "¿Estás seguro?",
@@ -73,7 +72,7 @@ const deleteBrand = (brand) => {
         cancelButtonText: "No, cancelar!",
     }).then((result) => {
         if (result.isConfirmed) {
-            form.delete(route("brands.destroy", brand), {
+            form.delete(route("vehicletypes.destroy", vehicletypes), {
                 preserveScroll: true,
             });
         }
@@ -81,24 +80,22 @@ const deleteBrand = (brand) => {
 };
 
 const search = () => {
-    form.get(route("brands.search", { texto: query.value }));
+    form.get(route("vehicletypes.search", { texto: query.value }));
 };
 
 const goToIndex = () => {
-    form.get(route("brands.index"));
+    form.get(route("vehicletypes.index"));
 };
 
-const asset = (path) => {
-    return `/storage/${path}`;
-};
+
 </script>
 
 <template>
-    <AppLayout title="Brands">
+    <AppLayout title="Tipos de Vehículos">
         <template #header>
             <div class="flex justify-between">
                 <h2 class="font-bold text-xl text-slate-500 ">
-                    Gestionar Marca
+                    Gestionar Tipos de Vehículos
                 </h2>
                 <button class="bg-green-100 hover:bg-green-200 w-12 rounded-md shadow-abajo-1" @click="goToIndex">
                     <v-icon class="text-slate-500" name="io-reload-circle-sharp" scale="1.7" />
@@ -112,7 +109,7 @@ const asset = (path) => {
                         <div class="relative">
                             <input type="text" v-model="query"
                                 class="w-64 md:w-72 lg:w-96 hover:border-slate-200 focus:border-blue-50 bg-3D-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none shadow-abajo-2 text-slate-500 border-slate-200 font-bold"
-                                placeholder="Buscar Marca" @input="query = query.toUpperCase()" @keyup.enter="search" />
+                                placeholder="Buscar Tipo de Vehículo"  @keyup.enter="search" />
                             <button @click.prevent="search"
                                 class="absolute inset-y-0 right-0 px-3 flex items-center text-slate-500 bg-blue-100 rounded-e-md hover:bg-blue-200 shadow-abajo-1">
                                 <v-icon name="fa-search" scale="1.5" />
@@ -121,7 +118,7 @@ const asset = (path) => {
                         <div>
                             <button
                                 class="bg-blue-100 shadow-abajo-1 p-2 text-slate-500 font-bold rounded-lg flex items-center hover:bg-blue-200 cursor-pointer"
-                                @click="addBrand">
+                                @click="addVehicleType">
                                 <v-icon name="io-add-circle-sharp" scale="1.1" />
                                 <p class="sm:block hidden ml-2">Agregar</p>
                             </button>
@@ -140,35 +137,21 @@ const asset = (path) => {
                                             </th>
                                             <th scope="col"
                                                 class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l">
-                                                Logo
-                                            </th>
-                                            <th scope="col"
-                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l">
                                                 descripcion
                                             </th>
                                             <th scope="col" class="border-l"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-3D-50 divide-gray-200">
-                                        <tr v-for="brand in brands.data" :key="brand.id"
+                                        <tr v-for="vehicletypes in vehicletypes.data" :key="vehicletypes.id"
                                             class="bg-3D-50 hover:bg-blue-50 border-2 shadow-abajo-2">
                                             <td
                                                 class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap">
-                                                {{ brand.name }}
-                                            </td>
-                                            <td
-                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap flex items-center justify-center">
-                                                <img :src="brand.logo
-                                                        ? brand.logo
-                                                        : asset(
-                                                            'default.png'
-                                                        )
-                                                    " alt="Logo de la marca"
-                                                    class="w-12 h-12 object-cover rounded-md" />
+                                                {{ vehicletypes.name }}
                                             </td>
                                             <td
                                                 class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap text-center">
-                                                {{ brand.description }}
+                                                {{ vehicletypes.description }}
                                             </td>
                                             <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
                                                 <div class="flex items-center justify-center gap-x-3">
@@ -176,7 +159,7 @@ const asset = (path) => {
                                                         <button
                                                             class="bg-yellow-200 text-slate-500 p-1 rounded-md hover:bg-yellow-300 cursor-pointer shadow-abajo-1"
                                                             @click="
-                                                                editBrand(brand)
+                                                                editVehicleType(vehicletypes)
                                                                 ">
                                                             <v-icon name="md-modeedit-round" />
                                                             <span
@@ -189,7 +172,7 @@ const asset = (path) => {
                                                                     transition: opacity
                                                                         0.3s;
                                                                 ">
-                                                                Editar Zonal
+                                                                Editar Tipo de Vehículo
                                                             </span>
                                                         </button>
                                                     </div>
@@ -197,8 +180,8 @@ const asset = (path) => {
                                                         <button
                                                             class="bg-red-300 text-slate-500 p-1 rounded-md hover:bg-red-400 shadow-abajo-1 cursor-pointer"
                                                             @click="
-                                                                deleteBrand(
-                                                                    brand
+                                                                deleteVehicleType(
+                                                                    vehicletypes
                                                                 )
                                                                 ">
                                                             <v-icon name="bi-trash" />
@@ -213,13 +196,13 @@ const asset = (path) => {
                                                                 transition: opacity
                                                                     0.3s;
                                                             ">
-                                                            Eliminar zonal
+                                                            Eliminar Tipo de Vehículo
                                                         </span>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr v-if="brands.data.length <= 0">
+                                        <tr v-if="vehicletypes.data.length <= 0">
                                             <td class="text-center font-bold text-slate-500 text-md sm:text-lg bg-3D-50 shadow-abajo-2"
                                                 colspan="5">
                                                 No hay registros
@@ -230,7 +213,7 @@ const asset = (path) => {
                             </div>
                         </div>
                         <div class="block sm:hidden rounded-lg">
-                            <div v-for="brand in brands.data" :key="brand.id"
+                            <div v-for="vehicletypes in vehicletypes.data" :key="vehicletypes.id"
                                 class="p-4 mx-1 mt-4 bg-blue-50 hover:bg-blue-100 rounded-lg relative shadow-abajo-1">
                                 <!-- Contenido de la tarjeta -->
                                 <div class="flex items-center space-x-2 mb-4">
@@ -242,7 +225,7 @@ const asset = (path) => {
                                     <h3 class="text-lg font-bold text-slate-700">
                                         Nombre:
                                         <span class="font-normal text-gray-600">{{
-                                            brand.name
+                                            vehicletypes.name
                                             }}</span>
                                     </h3>
                                 </div>
@@ -251,23 +234,23 @@ const asset = (path) => {
                                     <p>
                                         <strong>Descripcion:</strong>
                                         <span class="text-gray-600 ml-1">{{
-                                            brand.description
+                                            vehicletypes.description
                                             }}</span>
                                     </p>
                                 </div>
                                 <!-- Menú de tres puntos -->
                                 <div class="absolute top-0 right-0 p-2 z-10">
-                                    <button @click="toggleOptions(brand.id)"
+                                    <button @click="toggleOptions(vehicletypes.id)"
                                         class="text-gray-600 hover:text-gray-900 shadow-md shadow-sky-100">
                                         <v-icon name="oi-apps" />
                                     </button>
-                                    <div v-if="openMenuId === brand.id"
+                                    <div v-if="openMenuId === vehicletypes.id"
                                         class="bg-white flex justify-between shadow-abajo-1 rounded-lg absolute right-0 mt-1 w-[86px] z-20 text-center">
-                                        <a href="#" @click="editBrand(brand)"
+                                        <a href="#" @click="editVehicleType(vehicletypes)"
                                             class="block px-3 py-1 text-sm text-slate-500 bg-yellow-200 hover:bg-yellow-300 rounded-l-lg">
                                             <v-icon name="md-modeedit-round" class="text-slate-500" />
                                         </a>
-                                        <a href="#" @click="deleteBrand(brand)"
+                                        <a href="#" @click="deleteVehicleType(vehicletypes)"
                                             class="block px-3 py-1 text-sm text-slate-500 bg-red-300 hover:bg-red-400 rounded-r-lg">
                                             <v-icon name="bi-trash" class="text-slate-500" />
                                         </a>
@@ -275,10 +258,10 @@ const asset = (path) => {
                                 </div>
                             </div>
                         </div>
-                        <Pagination class="mt-2" :pagination="brands" />
+                        <Pagination class="mt-2" :pagination="vehicletypes" />
                     </div>
                     <Modal :show="showModal">
-                        <BrandForm :brand="brandObj" @close-modal="closeModal" />
+                        <VehicleTypeForm :vehicletype="vehicletypesObj" @close-modal="closeModal" />
                     </Modal>
                 </div>
             </div>

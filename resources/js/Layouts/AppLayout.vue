@@ -239,6 +239,32 @@ const logout = () => {
                                     <p class="text-slate-500 ml-3">Modelo</p>
                                 </div>
                             </NavLink>
+                            <NavLink
+                                :href="route('vehicletypes.index')"
+                                :active="route().current('vehicletypes.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="io-desktop"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Tipo de Vehículos</p>
+                                </div>
+                            </NavLink>
+                            <NavLink
+                                :href="route('vehiclecolors.index')"
+                                :active="route().current('vehiclecolors.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="io-desktop"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Colores de Vehículos</p>
+                                </div>
+                            </NavLink>
                         </div>
                     </li>
                 </ul>
