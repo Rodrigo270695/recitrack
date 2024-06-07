@@ -61,7 +61,7 @@ const emit = defineEmits(["close-modal"]);
             <div class="mb-4">
                 <div class="grid grid-cols-6 gap-3">
                     <div class="col-span-6 sm:col-span-6">
-                        <InputLabel value="Zonal" />
+                        <InputLabel value="Marca" />
                         <select
                             id="select"
                             v-model="form.brand_id"

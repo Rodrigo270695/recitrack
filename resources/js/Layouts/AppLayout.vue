@@ -18,7 +18,7 @@ const showVehicles = ref(false);
 
 const switchToTeam = (team) => {
     router.put(
-        router("current-team.update"),
+        route("current-team.update"),
         {
             team_id: team.id,
         },
@@ -29,7 +29,7 @@ const switchToTeam = (team) => {
 };
 
 const logout = () => {
-    router.post(router("logout"));
+    router.post(route("logout"));
 };
 </script>
 
@@ -135,25 +135,25 @@ const logout = () => {
                                     <div
                                         class="block px-4 py-2 text-xs text-gray-400"
                                     >
-                                        Manage Account
+                                        Gestionar cuenta
                                     </div>
-                                    <DropdownLink :href="route('profile.show')">
-                                        Profile
-                                    </DropdownLink>
-                                    <DropdownLink
+                                    <ResponsiveNavLink :href="route('profile.show')">
+                                        Perfil
+                                    </ResponsiveNavLink>
+                                    <ResponsiveNavLink
                                         v-if="
                                             $page.props.jetstream.hasApiFeatures
                                         "
                                         :href="route('api-tokens.index')"
                                     >
                                         API Tokens
-                                    </DropdownLink>
+                                    </ResponsiveNavLink>
                                     <div class="border-t border-gray-200" />
-                                    <form @submit.prevent="logout">
-                                        <DropdownLink as="button">
-                                            Log Out
-                                        </DropdownLink>
-                                    </form>overflow-y-autoava
+                                    <form method="POST" @submit.prevent="logout">
+                                        <ResponsiveNavLink as="button">
+                                            Salir
+                                        </ResponsiveNavLink>
+                                    </form>
                                 </template>
                             </Dropdown>
                         </div>
@@ -176,7 +176,7 @@ const logout = () => {
                         <NavLink
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
-                            class="flex items-center p-3 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-2 hover:shadow-abajo-1"
+                            class="flex items-center p-3 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
                         >
                             <div class="mt-[3px] -mb-[6px] text-lg">
                                 <v-icon
@@ -190,7 +190,7 @@ const logout = () => {
                     <li class="shadow-abajo-2 rounded-lg">
                         <button
                             @click="showVehicles = !showVehicles"
-                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-2 hover:shadow-abajo-1"
+                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
                         >
                             <div class="">
                                 <v-icon
