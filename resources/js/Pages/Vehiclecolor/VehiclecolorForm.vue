@@ -7,25 +7,23 @@ import { useForm } from "@inertiajs/vue3";
 import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
-    vehicletype: Object,
+    vehiclecolor: Object,
 });
 
 const form = useForm({
-    _method: props.vehicletype ? 'PUT' : 'POST',
-    id: props.vehicletype ? props.vehicletype.id : "",
-    name: props.vehicletype ? props.vehicletype.name : "",
-    description: props.vehicletype ? props.vehicletype.description : "",
-
+    id: props.vehiclecolor ? props.vehiclecolor.id : "",
+    name: props.vehiclecolor ? props.vehiclecolor.name : "",
+    description: props.vehiclecolor ? props.vehiclecolor.description : "",
 });
 
 const submit = () => {
-    if (props.vehicletype) {
-        form.put(route("vehicletypes.update", props.vehicletype), {
+    if (props.vehiclecolor) {
+        form.put(route("vehiclecolors.update", props.vehiclecolor), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });
     } else {
-        form.post(route("vehicletypes.store"), {
+        form.post(route("vehiclecolors.store"), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });
@@ -38,7 +36,6 @@ const toTitleCase = (str) => {
     });
 };
 
-
 const emit = defineEmits(["close-modal"]);
 
 </script>
@@ -46,7 +43,7 @@ const emit = defineEmits(["close-modal"]);
 <template>
     <div class="flex justify-between bg-slate-300 h-12 px-4">
         <div class="text-lg sm:text-xl text-slate-500 font-bold inline-flex items-center">
-            {{ form.id == 0 ? "Registrar Tipo de Vehículo" : "Actualizar Tipo de Vehículo" }}
+            {{ form.id == 0 ? "Registrar Color de Vehículo" : "Actualizar Color de Vehículo" }}
         </div>
         <button @click="emit('close-modal')" >
             <v-icon

@@ -7,25 +7,23 @@ import { useForm } from "@inertiajs/vue3";
 import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
-    vehiclecolor: Object,
+    statusroute: Object,
 });
 
 const form = useForm({
-    _method: props.vehiclecolor ? 'PUT' : 'POST',
-    id: props.vehiclecolor ? props.vehiclecolor.id : "",
-    name: props.vehiclecolor ? props.vehiclecolor.name : "",
-    description: props.vehiclecolor ? props.vehiclecolor.description : "",
-
+    id: props.statusroute ? props.statusroute.id : "",
+    name: props.statusroute ? props.statusroute.name : "",
+    description: props.statusroute ? props.statusroute.description : "",
 });
 
 const submit = () => {
-    if (props.vehiclecolor) {
-        form.put(route("vehiclecolors.update", props.vehiclecolor), {
+    if (props.statusroute) {
+        form.put(route("statusroutes.update", props.statusroute), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });
     } else {
-        form.post(route("vehiclecolors.store"), {
+        form.post(route("statusroutes.store"), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });
@@ -38,7 +36,6 @@ const toTitleCase = (str) => {
     });
 };
 
-
 const emit = defineEmits(["close-modal"]);
 
 </script>
@@ -46,7 +43,7 @@ const emit = defineEmits(["close-modal"]);
 <template>
     <div class="flex justify-between bg-slate-300 h-12 px-4">
         <div class="text-lg sm:text-xl text-slate-500 font-bold inline-flex items-center">
-            {{ form.id == 0 ? "Registrar Color de Vehículo" : "Actualizar Color de Vehículo" }}
+            {{ form.id == 0 ? "Registrar Estado de Ruta" : "Actualizar Estado de Ruta" }}
         </div>
         <button @click="emit('close-modal')" >
             <v-icon

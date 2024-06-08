@@ -6,9 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class VehicleColorsRequest extends FormRequest
+class VehicletypeRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return Auth::check();
@@ -21,7 +20,7 @@ class VehicleColorsRequest extends FormRequest
                 'required',
                 'min:3',
                 'max:50',
-                Rule::unique('vehiclecolors')->ignore($this->route('vehiclecolor')),
+                Rule::unique('vehicletypes')->ignore($this->route('vehicletype')),
             ],
             'description' => 'nullable|string',
         ];

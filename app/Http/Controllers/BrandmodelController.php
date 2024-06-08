@@ -55,7 +55,11 @@ class BrandModelController extends Controller
     public function search(Request $request): Response
     {
         $texto = $request->get('texto');
-        $brandModels = BrandModel::where('name', 'like', '%' . $texto . '%')
+        $brandModels = BrandModel::with('brand')
+            ->where('name', 'like', '%' . $texto . '%')
+            ->orWhereHas('brand', function ($query) use ($texto) {
+                $query->where('name', 'like', '%' . $texto . '%');
+            })
             ->orWhere('description', 'like', '%' . $texto . '%')
             ->orderBy("id", "desc")
             ->paginate(7)
@@ -63,4 +67,5 @@ class BrandModelController extends Controller
 
         return Inertia::render('Model/Index', compact('brandModels', 'texto'));
     }
+
 }

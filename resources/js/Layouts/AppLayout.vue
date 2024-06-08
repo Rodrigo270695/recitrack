@@ -15,6 +15,8 @@ defineProps({
 
 const showingNavigationDropdown = ref(false);
 const showVehicles = ref(false);
+const showUsers = ref(false);
+const showRoutes = ref(false);
 
 const switchToTeam = (team) => {
     router.put(
@@ -186,6 +188,114 @@ const logout = () => {
                                 <span class="ms-2">Dashboard</span>
                             </div>
                         </NavLink>
+                    </li>
+                    <li class="shadow-abajo-2 rounded-lg">
+                        <button
+                            @click="showUsers = !showUsers"
+                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
+                        >
+                            <div class="">
+                                <v-icon
+                                    name="fa-users-cog"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                                <span class="ms-3">Usuarios</span>
+                            </div>
+                            <div class="">
+                                <v-icon
+                                    v-if="!showUsers"
+                                    name="hi-solid-plus-sm"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                                <v-icon
+                                    v-else
+                                    name="hi-minus-sm"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                            </div>
+                        </button>
+                        <div v-if="showUsers" class="flex flex-col">
+                            <NavLink
+                                :href="route('typeusers.index')"
+                                :active="route().current('typeusers.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="md-donutlarge-outlined"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Tipo de Usuario</p>
+                                </div>
+                            </NavLink>
+                            <NavLink
+                                :href="route('typeusers.index')"
+                                :active="route().current('typeusers.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="pr-user-plus"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Usuario</p>
+                                </div>
+                            </NavLink>
+                        </div>
+                    </li>
+                    <li class="shadow-abajo-2 rounded-lg">
+                        <button
+                            @click="showRoutes = !showRoutes"
+                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
+                        >
+                            <div class="">
+                                <v-icon
+                                    name="ri-route-fill"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                                <span class="ms-3">Rutas</span>
+                            </div>
+                            <div class="">
+                                <v-icon
+                                    v-if="!showRoutes"
+                                    name="hi-solid-plus-sm"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                                <v-icon
+                                    v-else
+                                    name="hi-minus-sm"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                            </div>
+                        </button>
+                        <div v-if="showRoutes" class="flex flex-col">
+                            <NavLink
+                                :href="route('typeusers.index')"
+                                :active="route().current('typeusers.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="md-route-sharp"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Rutas</p>
+                                </div>
+                            </NavLink>
+                            <NavLink
+                                :href="route('statusroutes.index')"
+                                :active="route().current('statusroutes.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="la-sort-numeric-down-solid"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Estado rutas</p>
+                                </div>
+                            </NavLink>
+                        </div>
                     </li>
                     <li class="shadow-abajo-2 rounded-lg">
                         <button

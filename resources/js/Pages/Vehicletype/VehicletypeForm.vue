@@ -7,26 +7,23 @@ import { useForm } from "@inertiajs/vue3";
 import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
-    brandModel: Object,
-    brands: Object,
+    vehicletype: Object,
 });
 
 const form = useForm({
-    id: props.brandModel ? props.brandModel.id : "",
-    name: props.brandModel ? props.brandModel.name : "",
-    code: props.brandModel ? props.brandModel.code : "",
-    description: props.brandModel ? props.brandModel.description : "",
-    brand_id: props.brandModel ? props.brandModel.brand_id : "",
+    id: props.vehicletype ? props.vehicletype.id : "",
+    name: props.vehicletype ? props.vehicletype.name : "",
+    description: props.vehicletype ? props.vehicletype.description : "",
 });
 
 const submit = () => {
-    if (props.brandModel) {
-        form.put(route("brandmodels.update", props.brandModel), {
+    if (props.vehicletype) {
+        form.put(route("vehicletypes.update", props.vehicletype), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });
     } else {
-        form.post(route("brandmodels.store"), {
+        form.post(route("vehicletypes.store"), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });
@@ -46,7 +43,7 @@ const emit = defineEmits(["close-modal"]);
 <template>
     <div class="flex justify-between bg-slate-300 h-12 px-4">
         <div class="text-lg sm:text-xl text-slate-500 font-bold inline-flex items-center">
-            {{ form.id == 0 ? "Registrar Modelo" : "Actualizar Modelo" }}
+            {{ form.id == 0 ? "Registrar Tipo de Vehículo" : "Actualizar Tipo de Vehículo" }}
         </div>
         <button @click="emit('close-modal')" >
             <v-icon
@@ -61,29 +58,6 @@ const emit = defineEmits(["close-modal"]);
             <div class="mb-4">
                 <div class="grid grid-cols-6 gap-3">
                     <div class="col-span-6 sm:col-span-6">
-                        <InputLabel value="Marca" />
-                        <select
-                            id="select"
-                            v-model="form.brand_id"
-                            class="bg-gray-50 border border-blue-300 font-bold text-sm rounded-lg shadow-abajo-2 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500 focus:ring-slate-500 text-slate-500"
-                        >
-                            <option disabled selected value="">
-                                Elija una opción
-                            </option>
-                            <option
-                                v-for="brand in brands"
-                                :key="brand.id"
-                                :value="brand.id"
-                            >
-                                {{ brand.name }}
-                            </option>
-                        </select>
-                        <InputError
-                            class="w-full"
-                            :message="form.errors.brand_id"
-                        />
-                    </div>
-                    <div class="col-span-6 sm:col-span-3">
                         <InputLabel value="Nombre" class="text-slate-500 font-bold"/>
                         <TextInput
                             class="w-full"
@@ -93,17 +67,6 @@ const emit = defineEmits(["close-modal"]);
                         <InputError
                             class="w-full"
                             :message="form.errors.name"
-                        />
-                    </div>
-                    <div class="col-span-6 sm:col-span-3">
-                        <InputLabel value="Código" class="text-slate-500 font-bold"/>
-                        <TextInput
-                            class="w-full"
-                            v-model="form.code"
-                        />
-                        <InputError
-                            class="w-full"
-                            :message="form.errors.code"
                         />
                     </div>
                     <div class="col-span-6 sm:col-span-6">

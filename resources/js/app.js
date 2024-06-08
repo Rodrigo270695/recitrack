@@ -14,7 +14,8 @@ import
     ViFileTypePdf, ViFileTypeWord, ViFileTypeImage, ViDefaultFile, ViFileTypeExcel, BiFileEarmarkExcelFill,
     FaSearch, BiEyeFill, BiEyeSlashFill, GiExitDoor, MdDelete, MdChangecircleRound, MdPassword, MdAddphotoalternateRound, BiUpload,
     GiHamburgerMenu, MdMonitorTwotone, HiSolidPlusSm, HiMinusSm, BiArrowLeftShort, AiAfricarxivSquare, BiWindows, HiSolidChevronDown,
-    FaBars, FaTimes, FaUserCircle, FaAngleDown, FaCog, FaSignOutAlt, IoDesktop, IoClose, IoChevronDown, FaMinus, OiApps, IoCarSportSharp 
+    FaBars, FaTimes, FaUserCircle, FaAngleDown, FaCog, FaSignOutAlt, IoDesktop, IoClose, IoChevronDown, FaMinus, OiApps, IoCarSportSharp,
+    FaUsersCog, MdDonutlargeOutlined, PrUserPlus, RiRouteFill, MdRouteSharp, LaSortNumericDownSolid
 } from "oh-vue-icons/icons";
 
 addIcons(
@@ -23,7 +24,8 @@ PrImages, BiTrash, FaEye, BiCartFill, BiClockFill, IoReloadCircleSharp,
 ViFileTypePdf, ViFileTypeWord, ViFileTypeImage, ViDefaultFile, ViFileTypeExcel, BiFileEarmarkExcelFill,
 FaSearch, BiEyeFill, BiEyeSlashFill, GiExitDoor, MdDelete, MdChangecircleRound, MdPassword, MdAddphotoalternateRound, BiUpload,
 GiHamburgerMenu, MdMonitorTwotone, HiSolidPlusSm, HiMinusSm, BiArrowLeftShort, AiAfricarxivSquare, BiWindows, HiSolidChevronDown,
-FaBars, FaTimes, FaUserCircle, FaAngleDown, FaCog, FaSignOutAlt, IoDesktop, IoClose, IoChevronDown, FaMinus, OiApps, IoCarSportSharp 
+FaBars, FaTimes, FaUserCircle, FaAngleDown, FaCog, FaSignOutAlt, IoDesktop, IoClose, IoChevronDown, FaMinus, OiApps, IoCarSportSharp,
+FaUsersCog, MdDonutlargeOutlined, PrUserPlus, RiRouteFill, MdRouteSharp, LaSortNumericDownSolid
 );
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';

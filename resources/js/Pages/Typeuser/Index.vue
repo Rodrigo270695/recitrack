@@ -2,42 +2,41 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ref, defineProps, onMounted, onUnmounted, reactive } from "vue";
 import Pagination from "@/Components/Pagination.vue";
-import ModelForm from "./ModelForm.vue";
+import TypeuserForm from "./TypeuserForm.vue";
 import Modal from "@/Components/Modal.vue";
 import Swal from "sweetalert2";
 import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
-    brandModels: Object,
-    brands: Object,
+    typeusers: Object,
     texto: String,
 });
 
 const form = useForm({
-    brandModel: Object,
+    typeuser: Object,
 });
 
-let brandModelObj = ref(null);
+let typeuserObj = ref(null);
 let showModal = ref(false);
 let openMenuId = ref(null);
 let query = ref(props.texto);
 
-const toggleOptions = (modelId) => {
-    if (openMenuId.value === modelId) {
+const toggleOptions = (typeuserId) => {
+    if (openMenuId.value === typeuserId) {
         openMenuId.value = null;
     } else {
-        openMenuId.value = modelId;
+        openMenuId.value = typeuserId;
     }
 };
 
-const addBrandModel = () => {
-    brandModelObj.value = null;
+const addTypeuser = () => {
+    typeuserObj.value = null;
     showModal.value = true;
 };
 
-const editBrandModel = (model) => {
+const editTypeuser = (typeuser) => {
     openMenuId.value = null;
-    brandModelObj.value = model;
+    typeuserObj.value = typeuser;
     showModal.value = true;
 };
 
@@ -57,10 +56,11 @@ onUnmounted(() => {
 
 const closeModal = () => {
     showModal.value = false;
-    brandModelObj.value = null;
+    typeuserObj.value = null;
 };
 
-const deleteBrandModel = (model) => {
+const deleteTypeuser = (typeuser) => {
+    openMenuId.value = null;
     Swal.fire({
         title: "¿Estás seguro?",
         text: "No podrás revertir esto!",
@@ -72,7 +72,7 @@ const deleteBrandModel = (model) => {
         cancelButtonText: "No, cancelar!",
     }).then((result) => {
         if (result.isConfirmed) {
-            form.delete(route("brandmodels.destroy", model), {
+            form.delete(route("typeusers.destroy", typeuser), {
                 preserveScroll: true,
             });
         }
@@ -80,18 +80,24 @@ const deleteBrandModel = (model) => {
 };
 
 const search = () => {
-    form.get(route("brandmodels.search", { texto: query.value }));
+    form.get(route("typeusers.search", { texto: query.value }));
+};
+
+const goToIndex = () => {
+    form.get(route("typeusers.index"));
 };
 </script>
 
 <template>
-    <AppLayout title="Brand Models">
+    <AppLayout title="Typeusers">
         <template #header>
             <div class="flex justify-between">
-                <h2 class="font-bold text-xl text-slate-500">Gestionar Modelos de Marca</h2>
+                <h2 class="font-bold text-xl text-slate-500 ">
+                    Gestionar Tipo de Usuario
+                </h2>
                 <button
                     class="bg-green-100 hover:bg-green-200 w-12 rounded-md shadow-abajo-1"
-                    @click="() => form.get(route('brandmodels.index'))"
+                    @click="goToIndex"
                 >
                     <v-icon
                         class="text-slate-500"
@@ -111,8 +117,8 @@ const search = () => {
                             <input
                                 type="text"
                                 v-model="query"
-                                class="w-64 md:w-72 lg:w-96 hover:border-slate-200 focus:border-blue-50 bg-3D-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none shadow-abajo-2 text-slate-500 border-slate-200 font-bold"
-                                placeholder="Buscar Modelo"
+                                class="w-64 md:w-72 lg:w-96 hover:border-slate-200 focus:border-blue-50 bg-3D-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none shadow-abajo-2 text-slate-500 border-slate-200 font-bold focus:ring-slate-500"
+                                placeholder="Buscar Tipo de Usuario"
                                 @keyup.enter="search"
                             />
                             <button
@@ -125,7 +131,7 @@ const search = () => {
                         <div>
                             <button
                                 class="bg-blue-100 shadow-abajo-1 p-2 text-slate-500 font-bold rounded-lg flex items-center hover:bg-blue-200 cursor-pointer"
-                                @click="addBrandModel"
+                                @click="addTypeuser"
                             >
                                 <v-icon
                                     name="io-add-circle-sharp"
@@ -148,55 +154,44 @@ const search = () => {
                                                 scope="col"
                                                 class="px-6 py-2 text-left text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
                                             >
-                                                marca
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                class="px-6 py-2 text-left text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
-                                            >
                                                 nombre
                                             </th>
                                             <th
                                                 scope="col"
                                                 class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
                                             >
-                                                Código
+                                                descripcion
                                             </th>
-                                            <th class="border-l"></th>
+                                            <th scope="col" class="border-l"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-3D-50 divide-gray-200">
                                         <tr
-                                            v-for="brandModel in brandModels.data"
-                                            :key="brandModel.id"
+                                            v-for="typeuser in typeusers.data"
+                                            :key="typeuser.id"
                                             class="bg-3D-50 hover:bg-blue-50 border-2 shadow-abajo-2"
                                         >
                                             <td
                                                 class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap"
                                             >
-                                                {{ brandModel.brand.name }}
+                                                {{ typeuser.name }}
                                             </td>
                                             <td
-                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap"
+                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap text-center"
                                             >
-                                                {{ brandModel.name }}
-                                            </td>
-                                            <td
-                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap flex items-center justify-center"
-                                            >
-                                                {{ brandModel.code }}
+                                                {{ typeuser.description }}
                                             </td>
                                             <td
                                                 class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
                                             >
-<!--                                                 <div
+                                                <div
                                                     class="flex items-center justify-center gap-x-3"
                                                 >
                                                     <div class="relative group">
                                                         <button
                                                             class="bg-yellow-200 text-slate-500 p-1 rounded-md hover:bg-yellow-300 cursor-pointer shadow-abajo-1"
                                                             @click="
-                                                                editBrand(brand)
+                                                                editTypeuser(typeuser)
                                                             "
                                                         >
                                                             <v-icon
@@ -213,7 +208,7 @@ const search = () => {
                                                                         0.3s;
                                                                 "
                                                             >
-                                                                Editar Zonal
+                                                                Editar Tipo de Usuario
                                                             </span>
                                                         </button>
                                                     </div>
@@ -221,9 +216,7 @@ const search = () => {
                                                         <button
                                                             class="bg-red-300 text-slate-500 p-1 rounded-md hover:bg-red-400 shadow-abajo-1 cursor-pointer"
                                                             @click="
-                                                                deleteBrand(
-                                                                    brand
-                                                                )
+                                                                deleteTypeuser(typeuser)
                                                             "
                                                         >
                                                             <v-icon
@@ -241,16 +234,16 @@ const search = () => {
                                                                     0.3s;
                                                             "
                                                         >
-                                                            Eliminar zonal
+                                                            Eliminar Tipo de Usuario
                                                         </span>
                                                     </div>
-                                                </div> -->
+                                                </div>
                                             </td>
                                         </tr>
-                                        <tr v-if="brandModels.data.length <= 0">
+                                        <tr v-if="typeusers.data.length <= 0">
                                             <td
-                                                class="text-center font-bold text-slate-500 text-md sm:text-lg bg-3D-500 shadow-abajo-2"
-                                                colspan="5"
+                                                class="text-center font-bold text-slate-500 text-md sm:text-lg bg-3D-50 shadow-abajo-2"
+                                                colspan="3"
                                             >
                                                 No hay registros
                                             </td>
@@ -259,13 +252,84 @@ const search = () => {
                                 </table>
                             </div>
                         </div>
-
-                        <Pagination class="mt-2" :pagination="brandModels" />
+                        <div class="block sm:hidden rounded-lg">
+                            <div
+                                v-for="typeuser in typeusers.data"
+                                :key="typeuser.id"
+                                class="p-4 mx-1 mt-4 bg-blue-50 hover:bg-blue-100 rounded-lg relative shadow-abajo-1"
+                            >
+                                <!-- Contenido de la tarjeta -->
+                                <div class="flex items-center space-x-2 mb-4">
+                                    <svg
+                                        class="h-6 w-6 text-sky-500"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M3 7h18M3 12h18m-9 5h9"
+                                        />
+                                    </svg>
+                                    <h3 class="text-lg font-bold text-slate-700">
+                                        Nombre:
+                                        <span class="font-normal text-gray-600">{{
+                                            typeuser.name
+                                        }}</span>
+                                    </h3>
+                                </div>
+                                <!-- Detalles de la tarjeta -->
+                                <div class="text-md text-slate-700">
+                                    <p>
+                                        <strong>Descripcion:</strong>
+                                        <span class="text-gray-600 ml-1">{{
+                                            typeuser.description
+                                        }}</span>
+                                    </p>
+                                </div>
+                                <!-- Menú de tres puntos -->
+                                <div class="absolute top-0 right-0 p-2 z-10">
+                                    <button
+                                        @click="toggleOptions(typeuser.id)"
+                                        class="text-gray-600 hover:text-gray-900 shadow-md shadow-sky-100"
+                                    >
+                                        <v-icon name="oi-apps" />
+                                    </button>
+                                    <div
+                                        v-if="openMenuId === typeuser.id"
+                                        class="bg-white flex justify-between shadow-abajo-1 rounded-lg absolute right-0 mt-1 w-[86px] z-20 text-center"
+                                    >
+                                        <a
+                                            href="#"
+                                            @click="editTypeuser(typeuser)"
+                                            class="block px-3 py-1 text-sm text-slate-500 bg-yellow-200 hover:bg-yellow-300 rounded-l-lg"
+                                        >
+                                            <v-icon
+                                                name="md-modeedit-round"
+                                                class="text-slate-500"
+                                            />
+                                        </a>
+                                        <a
+                                            href="#"
+                                            @click="deleteTypeuser(typeuser)"
+                                            class="block px-3 py-1 text-sm text-slate-500 bg-red-300 hover:bg-red-400 rounded-r-lg"
+                                        >
+                                            <v-icon
+                                                name="bi-trash"
+                                                class="text-slate-500"
+                                            />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <Pagination class="mt-2" :pagination="typeusers" />
                     </div>
                     <Modal :show="showModal">
-                        <ModelForm
-                            :brandModel="brandModelObj"
-                            :brands="brands"
+                        <TypeuserForm
+                            :typeuser="typeuserObj"
                             @close-modal="closeModal"
                         />
                     </Modal>
