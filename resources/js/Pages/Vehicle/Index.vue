@@ -164,6 +164,12 @@ const goToIndex = () => {
                                                 scope="col"
                                                 class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
                                             >
+                                                Perfil
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
                                                 código
                                             </th>
                                             <th
@@ -225,6 +231,17 @@ const goToIndex = () => {
                                             <td
                                                 class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
                                             >
+                                                <img
+                                                    v-if="vehicle.vehicleimages.find(image => image.profile === 1)"
+                                                    :src="vehicle.vehicleimages.find(image => image.profile === 1).image"
+                                                    alt="Imagen de perfil del vehículo"
+                                                    class="w-12 h-12 object-cover rounded-lg"
+                                                >
+                                                <span v-else class="text-slate-400">Sin imagen</span>
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
                                                 {{ vehicle.code }}
                                             </td>
                                             <td
@@ -268,6 +285,31 @@ const goToIndex = () => {
                                                 <div
                                                     class="flex items-center justify-center gap-x-3"
                                                 >
+                                                    <div class="relative group">
+                                                        <button
+                                                            class="bg-sky-200 text-slate-500 p-1 rounded-md hover:bg-sky-300 shadow-abajo-1 cursor-pointer"
+                                                            @click="
+                                                                form.get(route('vehicles.images.index', { id: vehicle.id }))
+                                                            "
+                                                        >
+                                                            <v-icon
+                                                                name="ri-image-add-fill"
+                                                            />
+                                                        </button>
+                                                        <span
+                                                            class="absolute bottom-full mb-2 hidden group-hover:block w-auto p-2 text-xs text-white bg-sky-950 rounded-md"
+                                                            style="
+                                                                left: 50%;
+                                                                transform: translateX(
+                                                                    -50%
+                                                                );
+                                                                transition: opacity
+                                                                    0.3s;
+                                                            "
+                                                        >
+                                                            Añadir Foto
+                                                        </span>
+                                                    </div>
                                                     <div class="relative group">
                                                         <button
                                                             class="bg-yellow-200 text-slate-500 p-1 rounded-md hover:bg-yellow-300 cursor-pointer shadow-abajo-1"
@@ -316,31 +358,6 @@ const goToIndex = () => {
                                                             "
                                                         >
                                                             Eliminar Vehículo
-                                                        </span>
-                                                    </div>
-                                                    <div class="relative group">
-                                                        <button
-                                                            class="bg-sky-200 text-slate-500 p-1 rounded-md hover:bg-sky-300 shadow-abajo-1 cursor-pointer"
-                                                            @click="
-                                                                deleteVehicle(vehicle)
-                                                            "
-                                                        >
-                                                            <v-icon
-                                                                name="ri-image-add-fill"
-                                                            />
-                                                        </button>
-                                                        <span
-                                                            class="absolute bottom-full mb-2 hidden group-hover:block w-auto p-2 text-xs text-white bg-sky-950 rounded-md"
-                                                            style="
-                                                                left: 50%;
-                                                                transform: translateX(
-                                                                    -50%
-                                                                );
-                                                                transition: opacity
-                                                                    0.3s;
-                                                            "
-                                                        >
-                                                            Añadir Foto
                                                         </span>
                                                     </div>
                                                 </div>
@@ -447,12 +464,22 @@ const goToIndex = () => {
                                     </button>
                                     <div
                                         v-if="openMenuId === vehicle.id"
-                                        class="bg-white flex justify-between shadow-abajo-1 rounded-lg absolute right-0 mt-1 w-[86px] z-20 text-center"
+                                        class="bg-white flex justify-between shadow-abajo-1 rounded-lg absolute right-0 mt-1 w-[130px] z-20 text-center"
                                     >
                                         <a
                                             href="#"
+                                            @click=" form.get(route('vehicles.images.index', { id: vehicle.id }))"
+                                            class="block px-3 py-1 text-sm text-slate-500 bg-sky-200 hover:bg-sky-300 rounded-l-lg"
+                                        >
+                                            <v-icon
+                                                name="ri-image-add-fill"
+                                                class="text-slate-500"
+                                            />
+                                        </a>
+                                        <a
+                                            href="#"
                                             @click="editVehicle(vehicle)"
-                                            class="block px-3 py-1 text-sm text-slate-500 bg-yellow-200 hover:bg-yellow-300 rounded-l-lg"
+                                            class="block px-3 py-1 text-sm text-slate-500 bg-yellow-200 hover:bg-yellow-300"
                                         >
                                             <v-icon
                                                 name="md-modeedit-round"

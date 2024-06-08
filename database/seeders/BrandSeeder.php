@@ -12,8 +12,8 @@ class BrandSeeder extends Seeder
     {
 
         $marcas = [
-            "Hino", "CAT", "Mercedes Benz", "Volvo", "Faun",
-            "Refuse Master", "Wayne", "Kenworth", "Freightliner",
+            "Hino", "CAT", "Mercedes Benz", "Volvo", "Scania",
+            "Isizu", "Heil", "Kenworth", "Freightliner",
             "Peterbilt", "Mack Trucks"
         ];
 

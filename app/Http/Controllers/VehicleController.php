@@ -19,7 +19,7 @@ class VehicleController extends Controller
 
     public function index(): Response
     {
-        $vehicles = Vehicle::with('brandmodel.brand', 'vehicletype', 'vehiclecolor')->orderBy('id', 'desc')->paginate(7);
+        $vehicles = Vehicle::with('brandmodel.brand', 'vehicletype', 'vehiclecolor', 'vehicleimages')->orderBy('id', 'desc')->paginate(7);
         $brands = Brand::orderBy('name', 'asc')->get();
         $brandmodels = Brandmodel::with('brand')->orderBy('name', 'asc')->get();
         $vehicletypes = Vehicletype::orderBy('name', 'asc')->get();
@@ -89,4 +89,5 @@ class VehicleController extends Controller
         $vehiclecolors = Vehiclecolor::orderBy('name', 'asc')->get();
         return Inertia::render('Vehicle/Index', compact('vehicles', 'texto', 'brands', 'brandmodels', 'vehicletypes', 'vehiclecolors'));
     }
+
 }

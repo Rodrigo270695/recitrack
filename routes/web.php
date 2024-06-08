@@ -6,8 +6,10 @@ use App\Http\Controllers\StatusrouteController;
 use App\Http\Controllers\TypeuserController;
 use App\Http\Controllers\VehiclecolorController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\VehicleimageController;
 use App\Http\Controllers\VehicletypeController;
 use App\Http\Controllers\ZoneController;
+use App\Models\Vehicleimage;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -57,4 +59,9 @@ Route::middleware([
 
     Route::get('vehicles/search', [VehicleController::class, 'search' ])->name('vehicles.search');
     Route::resource('vehicles', VehicleController::class);
+
+    Route::get('vehicles/images/{id}', [VehicleimageController::class, 'index'])->name('vehicles.images.index');
+    Route::post('vehicles/images', [VehicleimageController::class, 'store'])->name('vehicles.images.store');
+    Route::delete('vehicles/images/{id}', [VehicleimageController::class, 'destroy'])->name('vehicles.images.destroy');
+
 });
