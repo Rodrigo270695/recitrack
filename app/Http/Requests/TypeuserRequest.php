@@ -21,8 +21,7 @@ class TypeuserRequest extends FormRequest
                 'min:3',
                 'max:50',
                 Rule::unique('typeusers')->ignore($this->route('typeuser')),
-            ],
-            'description' => 'nullable|string',
+            ]
         ];
     }
 }

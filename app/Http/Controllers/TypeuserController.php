@@ -9,20 +9,22 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Role;
 
 class TypeuserController extends Controller
 {
 
     public function index(): Response
     {
-        $typeusers = Typeuser::orderBy('id', 'desc')->paginate(7);
+        $typeusers = Role::orderBy('id', 'desc')->paginate(7);
+        dd($typeusers);
         return Inertia::render('Typeuser/Index', compact('typeusers'));
     }
 
     public function store(TypeuserRequest $request): RedirectResponse
     {
         try {
-            Typeuser::create($request->all());
+            Role::create($request->all());
             return redirect()->route('typeusers.index')->with('toast', ['Tipo de usuario creado exitosamente!', 'success']);
         } catch (QueryException $e) {
             dd($e);
@@ -30,7 +32,7 @@ class TypeuserController extends Controller
         }
     }
 
-    public function update(TypeuserRequest $request, Typeuser $typeuser): RedirectResponse
+    public function update(TypeuserRequest $request, Role $typeuser): RedirectResponse
     {
         try {
             $typeuser->update($request->all());
@@ -40,7 +42,7 @@ class TypeuserController extends Controller
         }
     }
 
-    public function destroy(Typeuser $typeuser): RedirectResponse
+    public function destroy(Role $typeuser): RedirectResponse
     {
         try {
             $typeuser->delete();
