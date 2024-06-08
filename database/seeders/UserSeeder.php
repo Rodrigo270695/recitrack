@@ -24,11 +24,16 @@ class UserSeeder extends Seeder
             "password"=> Hash::make("jardani1103")
         ]);
         $admin->assignRole("admin");
-        $admin->assignRole("admin");
         $admin = User::create([
             "name"=> "Andres davila",
             "email"=> "jdn3287@gmail.com",
             "password"=> Hash::make("jdn3287")
+        ]);
+        $admin->assignRole("admin");
+        $admin = User::create([
+            "name"=> "Galvany",
+            "email"=> "galvany@cosome.edu.pe",
+            "password"=> Hash::make("12345678")
         ]);
         $admin->assignRole("admin");
     }
