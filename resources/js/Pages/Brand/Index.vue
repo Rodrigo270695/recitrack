@@ -110,7 +110,7 @@ const asset = (path) => {
                 <div class="bg-3D-50 overflow-hidden shadow-abajo-2 rounded-lg">
                     <div class="flex justify-between py-2 px-3 my-3">
                         <div class="relative">
-                            <input type="text" v-model="query"
+                            <input type="search" v-model="query"
                                 class="w-64 md:w-72 lg:w-96 hover:border-slate-200 focus:border-blue-50 bg-3D-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none shadow-abajo-2 text-slate-500 border-slate-200 font-bold"
                                 placeholder="Buscar Marca" @input="query = query.toUpperCase()" @keyup.enter="search" />
                             <button @click.prevent="search"
@@ -153,11 +153,11 @@ const asset = (path) => {
                                         <tr v-for="brand in brands.data" :key="brand.id"
                                             class="bg-3D-50 hover:bg-blue-50 border-2 shadow-abajo-2">
                                             <td
-                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap">
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap">
                                                 {{ brand.name }}
                                             </td>
                                             <td
-                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap flex items-center justify-center">
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap flex items-center justify-center">
                                                 <img :src="brand.logo
                                                         ? brand.logo
                                                         : asset(
@@ -167,7 +167,7 @@ const asset = (path) => {
                                                     class="w-12 h-12 object-cover rounded-md" />
                                             </td>
                                             <td
-                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap text-center">
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center">
                                                 {{ brand.description }}
                                             </td>
                                             <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">

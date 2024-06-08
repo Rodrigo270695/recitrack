@@ -2,41 +2,45 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ref, defineProps, onMounted, onUnmounted, reactive } from "vue";
 import Pagination from "@/Components/Pagination.vue";
-import StatusrouteForm from "./StatusrouteForm.vue";
+import VehicleForm from "./VehicleForm.vue";
 import Modal from "@/Components/Modal.vue";
 import Swal from "sweetalert2";
 import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
-    statusroutes: Object,
+    vehicles: Object,
+    brandmodels: Array,
+    vehicletypes: Array,
+    vehiclecolors: Array,
+    brands: Array,
     texto: String,
 });
 
 const form = useForm({
-    statusroute: Object,
+    vehicle: Object,
 });
 
-let statusrouteObj = ref(null);
+let vehicleObj = ref(null);
 let showModal = ref(false);
 let openMenuId = ref(null);
 let query = ref(props.texto);
 
-const toggleOptions = (statusrouteId) => {
-    if (openMenuId.value === statusrouteId) {
+const toggleOptions = (vehicleId) => {
+    if (openMenuId.value === vehicleId) {
         openMenuId.value = null;
     } else {
-        openMenuId.value = statusrouteId;
+        openMenuId.value = vehicleId;
     }
 };
 
-const addStatusroute = () => {
-    statusrouteObj.value = null;
+const addVehicle = () => {
+    vehicleObj.value = null;
     showModal.value = true;
 };
 
-const editStatusroute = (statusroute) => {
+const editVehicle = (vehicle) => {
     openMenuId.value = null;
-    statusrouteObj.value = statusroute;
+    vehicleObj.value = vehicle;
     showModal.value = true;
 };
 
@@ -56,10 +60,10 @@ onUnmounted(() => {
 
 const closeModal = () => {
     showModal.value = false;
-    statusrouteObj.value = null;
+    vehicleObj.value = null;
 };
 
-const deleteStatusroute = (statusroute) => {
+const deleteVehicle = (vehicle) => {
     openMenuId.value = null;
     Swal.fire({
         title: "¿Estás seguro?",
@@ -72,7 +76,7 @@ const deleteStatusroute = (statusroute) => {
         cancelButtonText: "No, cancelar!",
     }).then((result) => {
         if (result.isConfirmed) {
-            form.delete(route("statusroutes.destroy", statusroute), {
+            form.delete(route("vehicles.destroy", vehicle), {
                 preserveScroll: true,
             });
         }
@@ -80,20 +84,20 @@ const deleteStatusroute = (statusroute) => {
 };
 
 const search = () => {
-    form.get(route("statusroutes.search", { texto: query.value }));
+    form.get(route("vehicles.search", { texto: query.value }));
 };
 
 const goToIndex = () => {
-    form.get(route("statusroutes.index"));
+    form.get(route("vehicles.index"));
 };
 </script>
 
 <template>
-    <AppLayout title="Statusroutes">
+    <AppLayout title="Vehicles">
         <template #header>
             <div class="flex justify-between">
                 <h2 class="font-bold text-xl text-slate-500 ">
-                    Gestionar Estado de Ruta
+                    Gestionar Vehículos
                 </h2>
                 <button
                     class="bg-green-100 hover:bg-green-200 w-12 rounded-md shadow-abajo-1"
@@ -117,8 +121,8 @@ const goToIndex = () => {
                             <input
                                 type="search"
                                 v-model="query"
-                                class="w-64 md:w-72 lg:w-96 hover:border-slate-200 focus:border-blue-50 bg-3D-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none shadow-abajo-2 text-slate-500 border-slate-200 font-bold focus:ring-slate-500"
-                                placeholder="Buscar Estado de Ruta"
+                                class="w-64 md:w-72 lg:w-96 hover:border-slate-200 focus:border-blue-50 bg-3D-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none shadow-abajo-2 text-slate-500 border-slate-200 font-bold focus:ring-slate-50"
+                                placeholder="Buscar Vehículo"
                                 @keyup.enter="search"
                             />
                             <button
@@ -131,7 +135,7 @@ const goToIndex = () => {
                         <div>
                             <button
                                 class="bg-blue-100 shadow-abajo-1 p-2 text-slate-500 font-bold rounded-lg flex items-center hover:bg-blue-200 cursor-pointer"
-                                @click="addStatusroute"
+                                @click="addVehicle"
                             >
                                 <v-icon
                                     name="io-add-circle-sharp"
@@ -160,26 +164,103 @@ const goToIndex = () => {
                                                 scope="col"
                                                 class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
                                             >
-                                                descripcion
+                                                código
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
+                                                placa
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
+                                                año
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
+                                                capacidad
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
+                                                estado
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
+                                                modelo
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                                >
+                                                tipo
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
+                                            >
+                                                color
                                             </th>
                                             <th scope="col" class="border-l"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-3D-50 divide-gray-200">
                                         <tr
-                                            v-for="statusroute in statusroutes.data"
-                                            :key="statusroute.id"
+                                            v-for="vehicle in vehicles.data"
+                                            :key="vehicle.id"
                                             class="bg-3D-50 hover:bg-blue-50 border-2 shadow-abajo-2"
                                         >
                                             <td
                                                 class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap"
                                             >
-                                                {{ statusroute.name }}
+                                                {{ vehicle.name }}
                                             </td>
                                             <td
                                                 class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
                                             >
-                                                {{ statusroute.description }}
+                                                {{ vehicle.code }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
+                                                {{ vehicle.plate }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
+                                                {{ vehicle.year }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
+                                                {{ vehicle.capacity }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
+                                                {{ vehicle.status }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
+                                                {{ vehicle.brandmodel.name }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
+                                                {{ vehicle.vehicletype.name }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
+                                                {{ vehicle.vehiclecolor.name }}
                                             </td>
                                             <td
                                                 class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
@@ -191,7 +272,7 @@ const goToIndex = () => {
                                                         <button
                                                             class="bg-yellow-200 text-slate-500 p-1 rounded-md hover:bg-yellow-300 cursor-pointer shadow-abajo-1"
                                                             @click="
-                                                                editStatusroute(statusroute)
+                                                                editVehicle(vehicle)
                                                             "
                                                         >
                                                             <v-icon
@@ -208,7 +289,7 @@ const goToIndex = () => {
                                                                         0.3s;
                                                                 "
                                                             >
-                                                                Editar Estado de Ruta
+                                                                Editar Vehículo
                                                             </span>
                                                         </button>
                                                     </div>
@@ -216,7 +297,7 @@ const goToIndex = () => {
                                                         <button
                                                             class="bg-red-300 text-slate-500 p-1 rounded-md hover:bg-red-400 shadow-abajo-1 cursor-pointer"
                                                             @click="
-                                                                deleteStatusroute(statusroute)
+                                                                deleteVehicle(vehicle)
                                                             "
                                                         >
                                                             <v-icon
@@ -234,16 +315,16 @@ const goToIndex = () => {
                                                                     0.3s;
                                                             "
                                                         >
-                                                            Eliminar Estado de Ruta
+                                                            Eliminar Vehículo
                                                         </span>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr v-if="statusroutes.data.length <= 0">
+                                        <tr v-if="vehicles.data.length <= 0">
                                             <td
                                                 class="text-center font-bold text-slate-500 text-md sm:text-lg bg-3D-50 shadow-abajo-2"
-                                                colspan="3"
+                                                colspan="10"
                                             >
                                                 No hay registros
                                             </td>
@@ -254,8 +335,8 @@ const goToIndex = () => {
                         </div>
                         <div class="block sm:hidden rounded-lg">
                             <div
-                                v-for="statusroute in statusroutes.data"
-                                :key="statusroute.id"
+                                v-for="vehicle in vehicles.data"
+                                :key="vehicle.id"
                                 class="p-4 mx-1 mt-4 bg-blue-50 hover:bg-blue-100 rounded-lg relative shadow-abajo-1"
                             >
                                 <!-- Contenido de la tarjeta -->
@@ -276,34 +357,76 @@ const goToIndex = () => {
                                     <h3 class="text-lg font-bold text-slate-700">
                                         Nombre:
                                         <span class="font-normal text-gray-600">{{
-                                            statusroute.name
+                                            vehicle.name
                                         }}</span>
                                     </h3>
                                 </div>
                                 <!-- Detalles de la tarjeta -->
                                 <div class="text-md text-slate-700">
                                     <p>
-                                        <strong>Descripcion:</strong>
+                                        <strong>Código:</strong>
                                         <span class="text-gray-600 ml-1">{{
-                                            statusroute.description
+                                            vehicle.code
                                         }}</span>
                                     </p>
+                                    <p>
+                                        <strong>Placa:</strong>
+                                        <span class="text-gray-600 ml-1">{{
+                                            vehicle.plate
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                        <strong>Año:</strong>
+                                        <span class="text-gray-600 ml-1">{{
+                                            vehicle.year
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                        <strong>Capacidad:</strong>
+                                        <span class="text-gray-600 ml-1">{{
+                                            vehicle.capacity
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                        <strong>Estado:</strong>
+                                        <span class="text-gray-600 ml-1">{{
+                                            vehicle.status
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                        <strong>Modelo:</strong>
+                                        <span class="text-gray-600 ml-1">{{
+                                            vehicle.brandmodel.name
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                        <strong>Tipo:</strong>
+                                        <span class="text-gray-600 ml-1">{{
+                                                                                    vehicle.vehicletype.name
+                                    }}</span>
+                                </p>
+                                <p>
+                                    <strong>Color:</strong>
+                                    <span class="text-gray-600 ml-1">{{
+                                        vehicle.vehiclecolor.name
+                                    }}</span>
+                                </p>
                                 </div>
                                 <!-- Menú de tres puntos -->
                                 <div class="absolute top-0 right-0 p-2 z-10">
                                     <button
-                                        @click="toggleOptions(statusroute.id)"
+                                        @click="toggleOptions(vehicle.id)"
                                         class="text-gray-600 hover:text-gray-900 shadow-md shadow-sky-100"
                                     >
                                         <v-icon name="oi-apps" />
                                     </button>
                                     <div
-                                        v-if="openMenuId === statusroute.id"
+                                        v-if="openMenuId === vehicle.id"
                                         class="bg-white flex justify-between shadow-abajo-1 rounded-lg absolute right-0 mt-1 w-[86px] z-20 text-center"
                                     >
                                         <a
                                             href="#"
-                                            @click="editStatusroute(statusroute)"
+                                            @click="editVehicle(vehicle)"
                                             class="block px-3 py-1 text-sm text-slate-500 bg-yellow-200 hover:bg-yellow-300 rounded-l-lg"
                                         >
                                             <v-icon
@@ -313,7 +436,7 @@ const goToIndex = () => {
                                         </a>
                                         <a
                                             href="#"
-                                            @click="deleteStatusroute(statusroute)"
+                                            @click="deleteVehicle(vehicle)"
                                             class="block px-3 py-1 text-sm text-slate-500 bg-red-300 hover:bg-red-400 rounded-r-lg"
                                         >
                                             <v-icon
@@ -325,11 +448,14 @@ const goToIndex = () => {
                                 </div>
                             </div>
                         </div>
-                        <Pagination class="mt-2" :pagination="statusroutes" />
+                        <Pagination class="mt-2" :pagination="vehicles" />
                     </div>
-                    <Modal :show="showModal">
-                        <StatusrouteForm
-                            :statusroute="statusrouteObj"
+                    <Modal :show="showModal" maxWidth="3xl">
+                        <VehicleForm
+                            :vehicle="vehicleObj"
+                            :brandmodels="props.brandmodels"
+                            :vehicletypes="props.vehicletypes"
+                            :vehiclecolors="props.vehiclecolors"
                             @close-modal="closeModal"
                         />
                     </Modal>

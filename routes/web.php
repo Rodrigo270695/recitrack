@@ -5,10 +5,9 @@ use App\Http\Controllers\BrandmodelController;
 use App\Http\Controllers\StatusrouteController;
 use App\Http\Controllers\TypeuserController;
 use App\Http\Controllers\VehiclecolorController;
-use App\Http\Controllers\VehicleTypesController;
-use App\Http\Controllers\VehicleColorsController;
+use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicletypeController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\ZoneController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -52,4 +51,10 @@ Route::middleware([
 
     Route::get('vehiclecolors/search', [VehicleColorController::class, 'search' ])->name('vehiclecolors.search');
     Route::resource('vehiclecolors', VehiclecolorController::class);
+
+    Route::get('zones/search', [ZoneController::class, 'search' ])->name('zones.search');
+    Route::resource('zones', ZoneController::class);
+
+    Route::get('vehicles/search', [VehicleController::class, 'search' ])->name('vehicles.search');
+    Route::resource('vehicles', VehicleController::class);
 });

@@ -17,6 +17,7 @@ const showingNavigationDropdown = ref(false);
 const showVehicles = ref(false);
 const showUsers = ref(false);
 const showRoutes = ref(false);
+const showZones = ref(false);
 
 const switchToTeam = (team) => {
     router.put(
@@ -299,6 +300,47 @@ const logout = () => {
                     </li>
                     <li class="shadow-abajo-2 rounded-lg">
                         <button
+                            @click="showZones = !showZones"
+                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
+                        >
+                            <div class="">
+                                <v-icon
+                                    name="md-place-round"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                                <span class="ms-3">Zonas</span>
+                            </div>
+                            <div class="">
+                                <v-icon
+                                    v-if="!showZones"
+                                    name="hi-solid-plus-sm"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                                <v-icon
+                                    v-else
+                                    name="hi-minus-sm"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                            </div>
+                        </button>
+                        <div v-if="showZones" class="flex flex-col">
+                            <NavLink
+                                :href="route('zones.index')"
+                                :active="route().current('zones.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="ri-find-replace-line"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Zona</p>
+                                </div>
+                            </NavLink>
+                        </div>
+                    </li>
+                    <li class="shadow-abajo-2 rounded-lg">
+                        <button
                             @click="showVehicles = !showVehicles"
                             class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
                         >
@@ -330,7 +372,7 @@ const logout = () => {
                             >
                                 <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
                                     <v-icon
-                                        name="io-desktop"
+                                        name="bi-layout-wtf"
                                         class="text-slate-500 hover:text-slate-600 "
                                     />
                                     <p class="text-slate-500 ml-3">Marca</p>
@@ -343,7 +385,7 @@ const logout = () => {
                             >
                                 <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
                                     <v-icon
-                                        name="io-desktop"
+                                        name="bi-justify-left"
                                         class="text-slate-500 hover:text-slate-600 "
                                     />
                                     <p class="text-slate-500 ml-3">Modelo</p>
@@ -356,7 +398,7 @@ const logout = () => {
                             >
                                 <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
                                     <v-icon
-                                        name="io-desktop"
+                                        name="bi-box"
                                         class="text-slate-500 hover:text-slate-600 "
                                     />
                                     <p class="text-slate-500 ml-3">Tipo de Vehículos</p>
@@ -369,10 +411,23 @@ const logout = () => {
                             >
                                 <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
                                     <v-icon
-                                        name="io-desktop"
+                                        name="md-invertcolors-round"
                                         class="text-slate-500 hover:text-slate-600 "
                                     />
                                     <p class="text-slate-500 ml-3">Colores de Vehículos</p>
+                                </div>
+                            </NavLink>
+                            <NavLink
+                                :href="route('vehicles.index')"
+                                :active="route().current('vehicles.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="gi-mine-truck"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Vehículos</p>
                                 </div>
                             </NavLink>
                         </div>

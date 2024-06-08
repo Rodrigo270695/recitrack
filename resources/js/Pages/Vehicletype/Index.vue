@@ -115,7 +115,7 @@ const goToIndex = () => {
                     <div class="flex justify-between py-2 px-3 my-3">
                         <div class="relative">
                             <input
-                                type="text"
+                                type="search"
                                 v-model="query"
                                 class="w-64 md:w-72 lg:w-96 hover:border-slate-200 focus:border-blue-50 bg-3D-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none shadow-abajo-2 text-slate-500 border-slate-200 font-bold focus:ring-slate-500"
                                 placeholder="Buscar Tipo de Vehículo"
@@ -172,12 +172,12 @@ const goToIndex = () => {
                                             class="bg-3D-50 hover:bg-blue-50 border-2 shadow-abajo-2"
                                         >
                                             <td
-                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap"
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap"
                                             >
                                                 {{ vehicletype.name }}
                                             </td>
                                             <td
-                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
                                             >
                                                 {{ vehicletype.description }}
                                             </td>
