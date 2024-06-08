@@ -229,13 +229,13 @@ const goToIndex = () => {
                                                 {{ vehicle.name }}
                                             </td>
                                             <td
-                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                                class="text-xs md:text-base text-slate-500 whitespace-nowrap text-center flex items-center justify-center py-2"
                                             >
                                                 <img
                                                     v-if="vehicle.vehicleimages.find(image => image.profile === 1)"
                                                     :src="vehicle.vehicleimages.find(image => image.profile === 1).image"
                                                     alt="Imagen de perfil del vehículo"
-                                                    class="w-12 h-12 object-cover rounded-lg"
+                                                    class="w-14 h-14 object-cover rounded-lg"
                                                 >
                                                 <span v-else class="text-slate-400">Sin imagen</span>
                                             </td>
