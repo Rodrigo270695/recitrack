@@ -7,21 +7,21 @@ import { useForm } from "@inertiajs/vue3";
 import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
-    brandModel: Object,
+    brandmodel: Object,
     brands: Object,
 });
 
 const form = useForm({
-    id: props.brandModel ? props.brandModel.id : "",
-    name: props.brandModel ? props.brandModel.name : "",
-    code: props.brandModel ? props.brandModel.code : "",
-    description: props.brandModel ? props.brandModel.description : "",
-    brand_id: props.brandModel ? props.brandModel.brand_id : "",
+    id: props.brandmodel ? props.brandmodel.id : "",
+    name: props.brandmodel ? props.brandmodel.name : "",
+    code: props.brandmodel ? props.brandmodel.code : "",
+    description: props.brandmodel ? props.brandmodel.description : "",
+    brand_id: props.brandmodel ? props.brandmodel.brand_id : "",
 });
 
 const submit = () => {
-    if (props.brandModel) {
-        form.put(route("brandmodels.update", props.brandModel), {
+    if (props.brandmodel) {
+        form.put(route("brandmodels.update", props.brandmodel), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });

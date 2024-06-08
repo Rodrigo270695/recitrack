@@ -32,20 +32,20 @@ class BrandModelController extends Controller
         }
     }
 
-    public function update(BrandModelRequest $request, BrandModel $brandModel): RedirectResponse
+    public function update(BrandModelRequest $request, BrandModel $brandmodel): RedirectResponse
     {
         try {
-            $brandModel->update($request->validated());
+            $brandmodel->update($request->validated());
             return redirect()->route('brandmodels.index')->with('toast', ['Modelo de marca actualizado exitosamente!', 'success']);
         } catch (QueryException $e) {
             return redirect()->back()->with('toast', ['Ocurrió un error al actualizar el modelo de marca!', 'danger']);
         }
     }
 
-    public function destroy(BrandModel $brandModel): RedirectResponse
+    public function destroy(BrandModel $brandmodel): RedirectResponse
     {
         try {
-            $brandModel->delete();
+            $brandmodel->delete();
             return redirect()->route('brandmodels.index')->with('toast', ['Modelo de marca eliminado exitosamente!', 'success']);
         } catch (QueryException $e) {
             return redirect()->back()->with('toast', ['Ocurrió un error al eliminar el modelo de marca!', 'danger']);

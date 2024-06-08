@@ -189,14 +189,14 @@ const search = () => {
                                             <td
                                                 class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
                                             >
-<!--                                                 <div
+                                                <div
                                                     class="flex items-center justify-center gap-x-3"
                                                 >
                                                     <div class="relative group">
                                                         <button
                                                             class="bg-yellow-200 text-slate-500 p-1 rounded-md hover:bg-yellow-300 cursor-pointer shadow-abajo-1"
                                                             @click="
-                                                                editBrand(brand)
+                                                                editBrandModel(brandModel)
                                                             "
                                                         >
                                                             <v-icon
@@ -213,7 +213,7 @@ const search = () => {
                                                                         0.3s;
                                                                 "
                                                             >
-                                                                Editar Zonal
+                                                                Editar Modelo
                                                             </span>
                                                         </button>
                                                     </div>
@@ -221,8 +221,8 @@ const search = () => {
                                                         <button
                                                             class="bg-red-300 text-slate-500 p-1 rounded-md hover:bg-red-400 shadow-abajo-1 cursor-pointer"
                                                             @click="
-                                                                deleteBrand(
-                                                                    brand
+                                                                deleteBrandModel(
+                                                                    brandModel
                                                                 )
                                                             "
                                                         >
@@ -241,10 +241,10 @@ const search = () => {
                                                                     0.3s;
                                                             "
                                                         >
-                                                            Eliminar zonal
+                                                            Eliminar Modelo
                                                         </span>
                                                     </div>
-                                                </div> -->
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr v-if="brandModels.data.length <= 0">
@@ -264,7 +264,7 @@ const search = () => {
                     </div>
                     <Modal :show="showModal">
                         <ModelForm
-                            :brandModel="brandModelObj"
+                            :brandmodel="brandModelObj"
                             :brands="brands"
                             @close-modal="closeModal"
                         />
