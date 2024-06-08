@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import ApplicationMark from "@/Components/ApplicationMark.vue";
 import Banner from "@/Components/Banner.vue";
@@ -14,10 +14,11 @@ defineProps({
 });
 
 const showingNavigationDropdown = ref(false);
-const showVehicles = ref(false);
-const showUsers = ref(false);
-const showRoutes = ref(false);
-const showZones = ref(false);
+const showVehicles = ref(JSON.parse(localStorage.getItem('showVehicles')) || false);
+const showUsers = ref(JSON.parse(localStorage.getItem('showUsers')) || false);
+const showRoutes = ref(JSON.parse(localStorage.getItem('showRoutes')) || false);
+const showZones = ref(JSON.parse(localStorage.getItem('showZones')) || false);
+
 
 const switchToTeam = (team) => {
     router.put(
@@ -34,6 +35,23 @@ const switchToTeam = (team) => {
 const logout = () => {
     router.post(route("logout"));
 };
+
+// Watchers to update localStorage when the state changes
+watch(showVehicles, (newValue) => {
+    localStorage.setItem('showVehicles', JSON.stringify(newValue));
+});
+
+watch(showUsers, (newValue) => {
+    localStorage.setItem('showUsers', JSON.stringify(newValue));
+});
+
+watch(showRoutes, (newValue) => {
+    localStorage.setItem('showRoutes', JSON.stringify(newValue));
+});
+
+watch(showZones, (newValue) => {
+    localStorage.setItem('showZones', JSON.stringify(newValue));
+});
 </script>
 
 <template>
