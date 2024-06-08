@@ -318,6 +318,31 @@ const goToIndex = () => {
                                                             Eliminar Vehículo
                                                         </span>
                                                     </div>
+                                                    <div class="relative group">
+                                                        <button
+                                                            class="bg-sky-200 text-slate-500 p-1 rounded-md hover:bg-sky-300 shadow-abajo-1 cursor-pointer"
+                                                            @click="
+                                                                deleteVehicle(vehicle)
+                                                            "
+                                                        >
+                                                            <v-icon
+                                                                name="ri-image-add-fill"
+                                                            />
+                                                        </button>
+                                                        <span
+                                                            class="absolute bottom-full mb-2 hidden group-hover:block w-auto p-2 text-xs text-white bg-sky-950 rounded-md"
+                                                            style="
+                                                                left: 50%;
+                                                                transform: translateX(
+                                                                    -50%
+                                                                );
+                                                                transition: opacity
+                                                                    0.3s;
+                                                            "
+                                                        >
+                                                            Añadir Foto
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -456,6 +481,7 @@ const goToIndex = () => {
                             :brandmodels="props.brandmodels"
                             :vehicletypes="props.vehicletypes"
                             :vehiclecolors="props.vehiclecolors"
+                            :brands="props.brands"
                             @close-modal="closeModal"
                         />
                     </Modal>
