@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BrandmodelController;
+use App\Http\Controllers\RouteController;
 use App\Http\Controllers\StatusrouteController;
 use App\Http\Controllers\TypeuserController;
 use App\Http\Controllers\UserController;
@@ -71,5 +72,8 @@ Route::middleware([
     Route::delete('zone/coords/{id}', [ZonecoordController::class, 'destroy'])->name('zone.coords.destroy');
 
     Route::resource('users', UserController::class);
+
+    Route::get('routes/search', [RouteController::class, 'search' ])->name('routes.search');
+    Route::resource('routes', RouteController::class);
 
 });

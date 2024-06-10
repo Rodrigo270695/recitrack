@@ -285,19 +285,6 @@ watch(showZones, (newValue) => {
                         </button>
                         <div v-if="showRoutes" class="flex flex-col">
                             <NavLink
-                                :href="route('typeusers.index')"
-                                :active="route().current('typeusers.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="md-route-sharp"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Rutas</p>
-                                </div>
-                            </NavLink>
-                            <NavLink
                                 :href="route('statusroutes.index')"
                                 :active="route().current('statusroutes.index')"
                                 class="rounded-lg"
@@ -308,6 +295,19 @@ watch(showZones, (newValue) => {
                                         class="text-slate-500 hover:text-slate-600 "
                                     />
                                     <p class="text-slate-500 ml-3">Estado rutas</p>
+                                </div>
+                            </NavLink>
+                            <NavLink
+                                :href="route('routes.index')"
+                                :active="route().current('routes.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="md-route-sharp"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Rutas</p>
                                 </div>
                             </NavLink>
                         </div>

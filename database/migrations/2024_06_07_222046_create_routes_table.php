@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
+            $table->string('name',50)->unique();
+            $table->decimal('latitude_start', 9, 6);
+            $table->decimal('latitude_end', 9,6);
+            $table->decimal('longitude_start',9,6);
+            $table->decimal('longitude_end',9,6);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

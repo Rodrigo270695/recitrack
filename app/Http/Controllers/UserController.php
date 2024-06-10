@@ -12,9 +12,9 @@ class UserController extends Controller
 {
     public function index(): Response
     {
-        $users = User::with('typeUser')->orderBy('id', 'desc')->paginate(7);
-        $typeUsers = Typeuser::all();
-        return Inertia::render('users.index', compact('users', 'typeUsers'));
+        $users = User::with('typeuser')->orderBy('id', 'desc')->paginate(7);
+        $typeUsers = Typeuser::orderBy('name', 'asc')->get();
+        return Inertia::render('User/Index', compact('users', 'typeUsers'));
     }
 
     /**
