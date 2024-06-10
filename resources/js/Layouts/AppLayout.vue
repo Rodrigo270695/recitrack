@@ -52,6 +52,7 @@ watch(showRoutes, (newValue) => {
 watch(showZones, (newValue) => {
     localStorage.setItem('showZones', JSON.stringify(newValue));
 });
+
 </script>
 
 <template>
@@ -98,11 +99,6 @@ watch(showZones, (newValue) => {
                             class="flex ms-2 md:me-24"
                         >
                             <ApplicationMark class="block h-9 w-auto" />
-                            <p
-                                class="p-1 text-2xl font-bold text-slate-500 ml-3"
-                            >
-                                ReciTrack
-                            </p>
                         </Link>
                     </div>
                     <div class="flex items-center">
@@ -248,8 +244,8 @@ watch(showZones, (newValue) => {
                                 </div>
                             </NavLink>
                             <NavLink
-                                :href="route('typeusers.index')"
-                                :active="route().current('typeusers.index')"
+                                :href="route('users.index')"
+                                :active="route().current('users.index')"
                                 class="rounded-lg"
                             >
                                 <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
@@ -257,7 +253,7 @@ watch(showZones, (newValue) => {
                                         name="pr-user-plus"
                                         class="text-slate-500 hover:text-slate-600 "
                                     />
-                                    <p class="text-slate-500 ml-3">Usuario</p>
+                                    <p class="text-slate-500 ml-3">Usuarios</p>
                                 </div>
                             </NavLink>
                         </div>

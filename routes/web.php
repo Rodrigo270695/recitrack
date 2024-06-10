@@ -4,11 +4,13 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BrandmodelController;
 use App\Http\Controllers\StatusrouteController;
 use App\Http\Controllers\TypeuserController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehiclecolorController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicleimageController;
 use App\Http\Controllers\VehicletypeController;
 use App\Http\Controllers\ZoneController;
+use App\Http\Controllers\ZonecoordController;
 use App\Models\Vehicleimage;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -63,5 +65,11 @@ Route::middleware([
     Route::get('vehicles/images/{id}', [VehicleimageController::class, 'index'])->name('vehicles.images.index');
     Route::post('vehicles/images', [VehicleimageController::class, 'store'])->name('vehicles.images.store');
     Route::delete('vehicles/images/{id}', [VehicleimageController::class, 'destroy'])->name('vehicles.images.destroy');
+
+    Route::get('zone/coords/{id}', [ZonecoordController::class, 'index'])->name('zone.coords.index');
+    Route::post('zone/coords', [ZonecoordController::class, 'store'])->name('zone.coords.store');
+    Route::delete('zone/coords/{id}', [ZonecoordController::class, 'destroy'])->name('zone.coords.destroy');
+
+    Route::resource('users', UserController::class);
 
 });

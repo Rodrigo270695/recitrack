@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Zone extends Model
+class Zonecoord extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function zoneCoords(): HasMany
+    public function zone(): BelongsTo
     {
-        return $this->hasMany(Zonecoord::class);
+        return $this->belongsTo(Zone::class);
     }
 }

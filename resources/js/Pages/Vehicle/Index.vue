@@ -170,7 +170,7 @@ const goToIndex = () => {
                                                 scope="col"
                                                 class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
                                             >
-                                                código
+                                                Modelo
                                             </th>
                                             <th
                                                 scope="col"
@@ -184,36 +184,14 @@ const goToIndex = () => {
                                             >
                                                 año
                                             </th>
-                                            <th
-                                                scope="col"
-                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
-                                            >
-                                                capacidad
-                                            </th>
+
                                             <th
                                                 scope="col"
                                                 class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
                                             >
                                                 estado
                                             </th>
-                                            <th
-                                                scope="col"
-                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
-                                            >
-                                                modelo
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
-                                                >
-                                                tipo
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                class="px-6 py-2 text-center text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
-                                            >
-                                                color
-                                            </th>
+
                                             <th scope="col" class="border-l"></th>
                                         </tr>
                                     </thead>
@@ -242,7 +220,7 @@ const goToIndex = () => {
                                             <td
                                                 class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
                                             >
-                                                {{ vehicle.code }}
+                                                {{ vehicle.brandmodel.brand.name }}/{{ vehicle.brandmodel.name }}
                                             </td>
                                             <td
                                                 class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
@@ -257,27 +235,7 @@ const goToIndex = () => {
                                             <td
                                                 class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
                                             >
-                                                {{ vehicle.capacity }}
-                                            </td>
-                                            <td
-                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
-                                            >
                                                 {{ vehicle.status }}
-                                            </td>
-                                            <td
-                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
-                                            >
-                                                {{ vehicle.brandmodel.name }}
-                                            </td>
-                                            <td
-                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
-                                            >
-                                                {{ vehicle.vehicletype.name }}
-                                            </td>
-                                            <td
-                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
-                                            >
-                                                {{ vehicle.vehiclecolor.name }}
                                             </td>
                                             <td
                                                 class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium"

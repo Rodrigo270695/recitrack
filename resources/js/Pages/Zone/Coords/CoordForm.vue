@@ -1,50 +1,47 @@
 <script setup>
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
-import TextArea from "@/Components/TextArea.vue";
 import InputError from "@/Components/InputError.vue";
+import MapComponent from "@/Components/MapComponent.vue";
 import { useForm } from "@inertiajs/vue3";
 import { defineProps, defineEmits } from "vue";
+import 'leaflet/dist/leaflet.css';
 
 const props = defineProps({
+    zoneCoords: Array,
     zone: Object,
+    lastCoord: Object,
 });
 
 const form = useForm({
-    id: props.zone ? props.zone.id : "",
-    name: props.zone ? props.zone.name : "",
-    area: props.zone ? props.zone.area : "",
-    description: props.zone ? props.zone.description : "",
+    zone_id: props.zone.id,
+    latitude: props.lastCoord ? props.lastCoord.latitude : null,
+    longitude: props.lastCoord ? props.lastCoord.longitude : null,
 });
 
 const submit = () => {
-    if (props.zone) {
-        form.put(route("zones.update", props.zone), {
-            preserveScroll: true,
-            onSuccess: () => emit("close-modal"),
-        });
-    } else {
-        form.post(route("zones.store"), {
-            preserveScroll: true,
-            onSuccess: () => emit("close-modal"),
-        });
-    }
-};
-
-const toTitleCase = (str) => {
-    return str.replace(/\w\S*/g, (txt) => {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    form.post(route("zone.coords.store"), {
+        preserveScroll: true,
+        onSuccess: () => emit("close-modal"),
     });
 };
 
 const emit = defineEmits(["close-modal"]);
+
+const updateLat = (newLat) => {
+  form.latitude = newLat;
+};
+
+const updateLng = (newLng) => {
+  form.longitude = newLng;
+};
 
 </script>
 
 <template>
     <div class="flex justify-between bg-slate-300 h-12 px-4">
         <div class="text-lg sm:text-xl text-slate-500 font-bold inline-flex items-center">
-            {{ form.id == 0 ? "Registrar Zona" : "Actualizar Zona" }}
+            Registrar Coordenada
         </div>
         <button @click="emit('close-modal')" >
             <v-icon
@@ -58,39 +55,38 @@ const emit = defineEmits(["close-modal"]);
         <div class="bg-3D-50 shadow-md rounded-md p-4">
             <div class="mb-4">
                 <div class="grid grid-cols-6 gap-3">
-                    <div class="col-span-6 sm:col-span-6">
-                        <InputLabel value="Nombre" class="text-slate-500 font-bold"/>
+                    <div class="col-span-6 sm:col-span-3">
+                        <InputLabel value="Latitud" class="text-slate-500 font-bold"/>
                         <TextInput
                             class="w-full"
-                            v-model="form.name"
-                            @input="form.name = toTitleCase(form.name)"
+                            v-model="form.latitude"
                         />
                         <InputError
                             class="w-full"
-                            :message="form.errors.name"
+                            :message="form.errors.latitude"
                         />
                     </div>
-                    <div class="col-span-6 sm:col-span-6">
-                        <InputLabel value="Área" class="text-slate-500 font-bold"/>
+                    <div class="col-span-6 sm:col-span-3">
+                        <InputLabel value="Longitud" class="text-slate-500 font-bold"/>
                         <TextInput
                             class="w-full"
-                            v-model="form.area"
+                            v-model="form.longitude"
                         />
                         <InputError
                             class="w-full"
-                            :message="form.errors.area"
+                            :message="form.errors.longitude"
                         />
                     </div>
-                    <div class="col-span-6 sm:col-span-6">
-                        <InputLabel value="Descripción" class="text-slate-500 font-bold"/>
-                        <TextArea
-                            class="w-full h-28"
-                            v-model="form.description"
-                        />
-                        <InputError
-                            class="w-full"
-                            :message="form.errors.description"
-                        />
+                    <div class="col-span-6 sm:col-span-6 shadow-abajo-2 rounded-md">
+                        <div class="p-3">
+                            <MapComponent
+                                :initial-lat="form.latitude"
+                                :initial-lng="form.longitude"
+                                :zone-coords="props.zoneCoords"
+                                @update:lat="updateLat"
+                                @update:lng="updateLng"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,7 +95,7 @@ const emit = defineEmits(["close-modal"]);
                     class="bg-blue-100 hover:bg-blue-200 text-slate-500 font-bold px-4 py-2 rounded-md mr-2 shadow-abajo-1"
                     :disabled="form.processing"
                 >
-                    {{ form.id == 0 ? "Registrar" : "Actualizar" }}
+                    Registrar
                 </button>
             </div>
         </div>
