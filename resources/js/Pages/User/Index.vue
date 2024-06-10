@@ -388,13 +388,13 @@ const asset = (path) => {
                         </div>
                         <Pagination class="mt-2" :pagination="users" />
                     </div>
-<!--                     <Modal :show="showModal">
+                    <Modal :show="showModal" maxWidth="3xl">
                         <UserForm
                             :user="userObj"
                             :type-users="props.typeUsers"
                             @close-modal="closeModal"
                         />
-                    </Modal> -->
+                    </Modal>
                 </div>
             </div>
         </div>
