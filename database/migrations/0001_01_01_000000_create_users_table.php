@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('last_name',50);
             $table->string('dni',8)->unique();
             $table->date('birthdate')->nullable();
-            $table->string('license',20)->unique();
+            $table->string('license',20)->unique()->nullable();
             $table->string('address',100)->nullable();
             $table->string('email')->unique();
             $table->string('phone')->nullable();

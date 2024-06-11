@@ -13,16 +13,13 @@ return new class extends Migration
     {
         Schema::create('zonecoords', function (Blueprint $table) {
             $table->id();
-            $table->decimal('latitude');
-            $table->decimal('longitude');
+            $table->double('latitude');
+            $table->double('longitude');
             $table->foreignId('zone_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('zonecoords');

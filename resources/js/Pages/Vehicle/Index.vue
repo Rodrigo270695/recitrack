@@ -270,6 +270,31 @@ const goToIndex = () => {
                                                     </div>
                                                     <div class="relative group">
                                                         <button
+                                                            class="bg-violet-200 text-slate-500 p-1 rounded-md hover:bg-violet-300 shadow-abajo-1 cursor-pointer"
+                                                            @click="
+                                                                form.get(route('vehicle.occupants.index', { id: vehicle.id }))
+                                                            "
+                                                        >
+                                                            <v-icon
+                                                                name="hi-solid-user-add"
+                                                            />
+                                                        </button>
+                                                        <span
+                                                            class="absolute bottom-full mb-2 hidden group-hover:block w-auto p-2 text-xs text-white bg-sky-950 rounded-md"
+                                                            style="
+                                                                left: 50%;
+                                                                transform: translateX(
+                                                                    -50%
+                                                                );
+                                                                transition: opacity
+                                                                    0.3s;
+                                                            "
+                                                        >
+                                                            Asignar
+                                                        </span>
+                                                    </div>
+                                                    <div class="relative group">
+                                                        <button
                                                             class="bg-yellow-200 text-slate-500 p-1 rounded-md hover:bg-yellow-300 cursor-pointer shadow-abajo-1"
                                                             @click="
                                                                 editVehicle(vehicle)

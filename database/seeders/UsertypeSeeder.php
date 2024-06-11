@@ -11,9 +11,9 @@ class UsertypeSeeder extends Seeder
     public function run(): void
     {
         $tiposDeUsuarios = [
-            "administrador",
-            "chofer",
-            "acompañante"
+            "Administrador",
+            "Chofer/Conductor",
+            "Reciclador"
         ];
 
         foreach ($tiposDeUsuarios as $tipo) {

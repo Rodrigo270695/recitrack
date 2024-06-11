@@ -122,7 +122,6 @@ const asset = (path) => {
                                 v-model="query"
                                 class="w-64 md:w-72 lg:w-96 hover:border-slate-200 focus:border-blue-50 bg-3D-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none shadow-abajo-2 text-slate-500 border-slate-200 font-bold"
                                 placeholder="Buscar Usuario"
-                                @input="query = query.toUpperCase()"
                                 @keyup.enter="search"
                             />
                             <button
@@ -176,7 +175,7 @@ const asset = (path) => {
                                                 scope="col"
                                                 class="px-6 py-2 text-left text-xs sm:text-base font-bold text-slate-500 uppercase tracking-wider border-l"
                                             >
-                                                Email
+                                                Licencia
                                             </th>
                                             <th
                                                 scope="col"
@@ -214,7 +213,7 @@ const asset = (path) => {
                                             <td
                                                 class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap"
                                             >
-                                                {{ user.email }}
+                                                {{ user.license }}
                                             </td>
                                             <td
                                                 class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap"

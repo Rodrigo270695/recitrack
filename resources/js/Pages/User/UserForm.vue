@@ -26,7 +26,7 @@ const form = useForm({
 
 const submit = () => {
     if (props.user) {
-        form.put(route("users.update", props.user.id), {
+        form.put(route("users.update", props.user), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });
@@ -45,15 +45,16 @@ const toTitleCase = (str) => {
 };
 
 const emit = defineEmits(["close-modal"]);
-
 </script>
 
 <template>
     <div class="flex justify-between bg-slate-300 h-12 px-4">
-        <div class="text-lg sm:text-xl text-slate-500 font-bold inline-flex items-center">
+        <div
+            class="text-lg sm:text-xl text-slate-500 font-bold inline-flex items-center"
+        >
             {{ form.id == 0 ? "Registrar Usuario" : "Actualizar Usuario" }}
         </div>
-        <button @click="emit('close-modal')" >
+        <button @click="emit('close-modal')">
             <v-icon
                 class="text-white rounded-md bg-red-400 hover:bg-red-500"
                 name="io-close"
@@ -61,12 +62,15 @@ const emit = defineEmits(["close-modal"]);
             />
         </button>
     </div>
-    <form @submit.prevent="submit" >
+    <form @submit.prevent="submit">
         <div class="bg-3D-50 shadow-md rounded-md p-4">
             <div class="mb-4">
                 <div class="grid grid-cols-6 gap-3">
                     <div class="col-span-6 sm:col-span-3">
-                        <InputLabel value="Nombre" class="text-slate-500 font-bold"/>
+                        <InputLabel
+                            value="Nombre"
+                            class="text-slate-500 font-bold"
+                        />
                         <TextInput
                             class="w-full"
                             v-model="form.name"
@@ -78,11 +82,16 @@ const emit = defineEmits(["close-modal"]);
                         />
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <InputLabel value="Apellido" class="text-slate-500 font-bold"/>
+                        <InputLabel
+                            value="Apellido"
+                            class="text-slate-500 font-bold"
+                        />
                         <TextInput
                             class="w-full"
                             v-model="form.last_name"
-                            @input="form.last_name = toTitleCase(form.last_name)"
+                            @input="
+                                form.last_name = toTitleCase(form.last_name)
+                            "
                         />
                         <InputError
                             class="w-full"
@@ -90,18 +99,18 @@ const emit = defineEmits(["close-modal"]);
                         />
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <InputLabel value="DNI" class="text-slate-500 font-bold"/>
-                        <TextInput
-                            class="w-full"
-                            v-model="form.dni"
+                        <InputLabel
+                            value="DNI"
+                            class="text-slate-500 font-bold"
                         />
-                        <InputError
-                            class="w-full"
-                            :message="form.errors.dni"
-                        />
+                        <TextInput class="w-full" v-model="form.dni" />
+                        <InputError class="w-full" :message="form.errors.dni" />
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <InputLabel value="Fecha de Nacimiento" class="text-slate-500 font-bold"/>
+                        <InputLabel
+                            value="Fecha de Nacimiento"
+                            class="text-slate-500 font-bold"
+                        />
                         <TextInput
                             type="date"
                             class="w-full"
@@ -113,29 +122,32 @@ const emit = defineEmits(["close-modal"]);
                         />
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <InputLabel value="Licencia" class="text-slate-500 font-bold"/>
-                        <TextInput
-                            class="w-full"
-                            v-model="form.license"
+                        <InputLabel
+                            value="Licencia"
+                            class="text-slate-500 font-bold"
                         />
+                        <TextInput class="w-full" v-model="form.license" />
                         <InputError
                             class="w-full"
                             :message="form.errors.license"
                         />
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <InputLabel value="Dirección" class="text-slate-500 font-bold"/>
-                        <TextInput
-                            class="w-full"
-                            v-model="form.address"
+                        <InputLabel
+                            value="Dirección"
+                            class="text-slate-500 font-bold"
                         />
+                        <TextInput class="w-full" v-model="form.address" />
                         <InputError
                             class="w-full"
                             :message="form.errors.address"
                         />
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <InputLabel value="Email" class="text-slate-500 font-bold"/>
+                        <InputLabel
+                            value="Email"
+                            class="text-slate-500 font-bold"
+                        />
                         <TextInput
                             type="email"
                             class="w-full"
@@ -147,11 +159,11 @@ const emit = defineEmits(["close-modal"]);
                         />
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <InputLabel value="Teléfono" class="text-slate-500 font-bold"/>
-                        <TextInput
-                            class="w-full"
-                            v-model="form.phone"
+                        <InputLabel
+                            value="Teléfono"
+                            class="text-slate-500 font-bold"
                         />
+                        <TextInput class="w-full" v-model="form.phone" />
                         <InputError
                             class="w-full"
                             :message="form.errors.phone"
@@ -178,18 +190,18 @@ const emit = defineEmits(["close-modal"]);
                         <InputError
                             class="w-full"
                             :message="form.errors.typeuser_id"
-            />
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button
+                    class="bg-blue-100 hover:bg-blue-200 text-slate-500 font-bold px-4 py-2 rounded-md mr-2 shadow-abajo-1"
+                    :disabled="form.processing"
+                >
+                    {{ form.id == 0 ? "Registrar" : "Actualizar" }}
+                </button>
+            </div>
         </div>
-        </div>
-    </div>
-    <div class="flex justify-end">
-        <button
-            class="bg-blue-100 hover:bg-blue-200 text-slate-500 font-bold px-4 py-2 rounded-md mr-2 shadow-abajo-1"
-            :disabled="form.processing"
-        >
-            {{ form.id == 0 ? "Registrar" : "Actualizar" }}
-        </button>
-    </div>
-</div>
-</form>
+    </form>
 </template>

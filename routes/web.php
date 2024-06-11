@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehiclecolorController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicleimageController;
+use App\Http\Controllers\VehicleoccupantController;
 use App\Http\Controllers\VehicletypeController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\ZonecoordController;
@@ -71,9 +72,14 @@ Route::middleware([
     Route::post('zone/coords', [ZonecoordController::class, 'store'])->name('zone.coords.store');
     Route::delete('zone/coords/{id}', [ZonecoordController::class, 'destroy'])->name('zone.coords.destroy');
 
+    Route::get('users/search', [UserController::class, 'search' ])->name('users.search');
     Route::resource('users', UserController::class);
 
     Route::get('routes/search', [RouteController::class, 'search' ])->name('routes.search');
     Route::resource('routes', RouteController::class);
+
+    Route::get('vehicle/occupants/{id}', [VehicleoccupantController::class, 'index' ])->name('vehicle.occupants.index');
+    Route::post('vehicle/occupants', [VehicleoccupantController::class, 'store'])->name('vehicle.occupants.store');
+    Route::delete('vehicle/occupants/{id}', [VehicleoccupantController::class, 'destroy'])->name('vehicle.occupants.destroy');
 
 });

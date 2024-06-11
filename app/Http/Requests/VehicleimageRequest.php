@@ -18,7 +18,7 @@ class VehicleimageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3072',
             'profile' => 'nullable',
             'vehicle_id' => 'required|exists:vehicles,id',
         ];
