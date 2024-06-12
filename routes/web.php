@@ -80,6 +80,6 @@ Route::middleware([
 
     Route::get('vehicle/occupants/{id}', [VehicleoccupantController::class, 'index' ])->name('vehicle.occupants.index');
     Route::post('vehicle/occupants', [VehicleoccupantController::class, 'store'])->name('vehicle.occupants.store');
-    Route::delete('vehicle/occupants/{id}', [VehicleoccupantController::class, 'destroy'])->name('vehicle.occupants.destroy');
+    Route::delete('vehicle/occupants/{vehicleoccupant}', [VehicleoccupantController::class, 'destroy'])->name('vehicle.occupants.destroy');
 
 });

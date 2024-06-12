@@ -4,7 +4,7 @@ import TextInput from "@/Components/TextInput.vue";
 import TextArea from "@/Components/TextArea.vue";
 import InputError from "@/Components/InputError.vue";
 import { useForm } from "@inertiajs/vue3";
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, computed, ref, watch } from "vue";
 
 const props = defineProps({
     vehicle: Object,
@@ -17,19 +17,20 @@ const form = useForm({
     user_id: '',
 });
 
-const selectedTypeId = ref(props.vehicle ? props.vehicle.user.typeuser.id : props.types.length > 0 ? props.types[0].id : null);
+const selectedTypeId = ref(props.types[0].id );
 
-const filteredTypes = computed(() => {
-    return props.brandmodels.filter(
-        (brandmodel) => brandmodel.brand_id === selectedBrandId.value
+
+const filteredUsers = computed(() => {
+    return props.users.filter(
+        (user) => user.typeuser_id === selectedTypeId.value
     );
 });
 
-watch(selectedBrandId, (newBrandId) => {
-    if (filteredBrandModels.value.length > 0) {
-        form.brandmodel_id = filteredBrandModels.value[0].id;
+watch(selectedTypeId, (newTypeId) => {
+    if (filteredUsers.value.length > 0) {
+        form.user_id = filteredUsers.value[0].id;
     } else {
-        form.brandmodel_id = "";
+        form.user_id = "";
     }
 });
 
@@ -65,7 +66,7 @@ const emit = defineEmits(["close-modal"]);
                         <InputLabel value="Tipo de Ocupante" />
                         <select
                             id="select"
-                            v-model="form.user_id"
+                            v-model="selectedTypeId"
                             class="bg-3D-50 border border-blue-300 font-bold text-sm rounded-lg shadow-abajo-2 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500 focus:ring-slate-500 text-slate-500"
                         >
                             <option disabled selected value="">
@@ -79,6 +80,10 @@ const emit = defineEmits(["close-modal"]);
                                 {{  type.name  }}
                             </option>
                         </select>
+                        <InputError
+                            class="w-full"
+                            :message="form.errors.vehicle_id"
+                        />
                     </div>
                     <div class="col-span-6 sm:col-span-6">
                         <InputLabel value="Ocupante" />
@@ -91,7 +96,7 @@ const emit = defineEmits(["close-modal"]);
                                 Elija una opción
                             </option>
                             <option
-                                v-for="user in users"
+                                v-for="user in filteredUsers"
                                 :key="user.id"
                                 :value="user.id"
                             >

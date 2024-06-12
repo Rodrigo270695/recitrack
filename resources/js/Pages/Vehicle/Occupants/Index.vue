@@ -67,7 +67,7 @@ const deleteVehicleOccupant = (vehicleoccupant) => {
         cancelButtonText: "No, cancelar!",
     }).then((result) => {
         if (result.isConfirmed) {
-            form.delete(route("vehicles.occupants.destroy", vehicleoccupant), {
+            form.delete(route("vehicle.occupants.destroy", vehicleoccupant), {
                 preserveScroll: true,
             });
         }
@@ -83,7 +83,7 @@ const deleteVehicleOccupant = (vehicleoccupant) => {
                 <h2 class="font-bold text-xl text-slate-500 ">
                     Gestionar Ocupantes del Vehiculo <p class="inline-flex text-blue-400">{{ props.vehicle.name }}</p> con <p class="inline-flex text-blue-400">{{ props.vehicle.capacity }}</p> ocupantes
                 </h2>
-                <button class="bg-green-100 hover:bg-green-200 w-12 rounded-md shadow-abajo-1" @click="form.get(route('vehicles.occupants.index', props.vehicle.id))">
+                <button class="bg-green-100 hover:bg-green-200 w-12 rounded-md shadow-abajo-1" @click="form.get(route('vehicle.occupants.index', props.vehicle.id))">
                     <v-icon class="text-slate-500" name="io-reload-circle-sharp" scale="1.7" />
                 </button>
             </div>

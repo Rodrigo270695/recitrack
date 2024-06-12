@@ -57,11 +57,13 @@ class VehicleController extends Controller
         }
     }
 
-    public function search(Request $request): Response
+    public function search(Request $request)
     {
         $texto = $request->get('texto');
-        $vehicles = Vehicle::with('brandmodel.brand', 'vehicletype', 'vehiclecolor')
-            ->where('name', 'like', '%' . $texto . '%')
+
+        if ($texto != '') {
+            $vehicles = Vehicle::with('brandmodel.brand', 'vehicletype', 'vehiclecolor', 'vehicleimages')
+                ->where('name', 'like', '%' . $texto . '%')
             ->orWhere('code', 'like', '%' . $texto . '%')
             ->orWhere('year', '=', $texto)
             ->orWhere('plate', 'like', '%' . $texto . '%')
@@ -83,11 +85,14 @@ class VehicleController extends Controller
             ->paginate(7)
             ->appends(['texto' => $texto]);
 
-        $brands = Brand::orderBy('name', 'asc')->get();
-        $brandmodels = Brandmodel::with('brand')->orderBy('name', 'asc')->get();
-        $vehicletypes = Vehicletype::orderBy('name', 'asc')->get();
-        $vehiclecolors = Vehiclecolor::orderBy('name', 'asc')->get();
-        return Inertia::render('Vehicle/Index', compact('vehicles', 'texto', 'brands', 'brandmodels', 'vehicletypes', 'vehiclecolors'));
+            $brands = Brand::orderBy('name', 'asc')->get();
+            $brandmodels = Brandmodel::with('brand')->orderBy('name', 'asc')->get();
+            $vehicletypes = Vehicletype::orderBy('name', 'asc')->get();
+            $vehiclecolors = Vehiclecolor::orderBy('name', 'asc')->get();
+            return Inertia::render('Vehicle/Index', compact('vehicles', 'texto', 'brands', 'brandmodels', 'vehicletypes', 'vehiclecolors'));
+        } else {
+            return redirect()->route('vehicles.index');
+        }
     }
 
 }

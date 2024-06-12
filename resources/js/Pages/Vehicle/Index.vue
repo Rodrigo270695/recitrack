@@ -210,7 +210,7 @@ const goToIndex = () => {
                                                 class="text-xs md:text-base text-slate-500 whitespace-nowrap text-center flex items-center justify-center py-2"
                                             >
                                                 <img
-                                                    v-if="vehicle.vehicleimages.find(image => image.profile === 1)"
+                                                    v-if="vehicle.vehicleimages.find(image => image.profile === 1)" 
                                                     :src="vehicle.vehicleimages.find(image => image.profile === 1).image"
                                                     alt="Imagen de perfil del vehículo"
                                                     class="w-14 h-14 object-cover rounded-lg"

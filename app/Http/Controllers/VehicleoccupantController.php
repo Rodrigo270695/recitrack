@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VehicleoccupantRequest;
 use App\Models\Typeuser;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\Vehicleoccupant;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,48 +24,25 @@ class VehicleoccupantController extends Controller
         return Inertia::render('Vehicle/Occupants/Index', compact('vehicleoccupants', 'vehicle', 'users', 'types'));
     }
 
-    public function create()
+    public function store(VehicleoccupantRequest $request)
     {
-        //
-    }
+        try {
+            Vehicleoccupant::create($request->all());
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Vehicleoccupant $vehicleoccupant)
-    {
-        //
+            return redirect()->route('vehicle.occupants.index', $request->vehicle_id)->with('toast', ['Ocupante creado exitosamente!', 'success']);
+        } catch (QueryException $e) {
+            return redirect()->back()->with('toast', ['Ocurrió un error!', 'danger']);
+        }
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Vehicleoccupant $vehicleoccupant)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Vehicleoccupant $vehicleoccupant)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Vehicleoccupant $vehicleoccupant)
     {
-        //
+        try {
+            $vehicleoccupant->delete();
+            return redirect()->route('vehicle.occupants.index', $vehicleoccupant->vehicle_id)->with('toast', ['Ocupante eliminado exitosamente!', 'success']);
+        } catch (QueryException $e) {
+            return redirect()->back()->with('toast', ['Ocurrió un error al eliminar el ocupante!', 'danger']);
+        }
     }
 }
