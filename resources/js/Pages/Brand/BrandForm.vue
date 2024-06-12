@@ -20,7 +20,7 @@ const form = useForm({
 
 const submit = () => {
     if (props.brand) {
-        form.put(route("brands.update", props.brand), {
+        form.post(route("brands.update", props.brand), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });
