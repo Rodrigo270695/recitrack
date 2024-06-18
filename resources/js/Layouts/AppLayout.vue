@@ -446,6 +446,21 @@ watch(showZones, (newValue) => {
                             </NavLink>
                         </div>
                     </li>
+                    <li class="">
+                        <NavLink
+                            :href="route('vehicleroutes.index')"
+                            :active="route().current('vehicleroutes.index')"
+                            class="flex items-center p-3 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
+                        >
+                            <div class="mt-[3px] -mb-[6px] text-lg">
+                                <v-icon
+                                    name="io-desktop"
+                                    class="text-slate-500 hover:text-slate-600 mx-[6px]"
+                                />
+                                <span class="ms-2">Programación</span>
+                            </div>
+                        </NavLink>
+                    </li>
                 </ul>
             </div>
         </aside>

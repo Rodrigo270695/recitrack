@@ -1,3 +1,7 @@
+Index.vue:
+
+
+
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ref, defineProps, onMounted, onUnmounted, reactive } from "vue";
@@ -6,9 +10,33 @@ import RouteForm from "./RouteForm.vue";
 import Modal from "@/Components/Modal.vue";
 import Swal from "sweetalert2";
 import { useForm } from "@inertiajs/vue3";
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import axios from 'axios';
 
+//const API_KEY = '5b3ce3597851110001cf6248a3a577bdaabf4a7f83518a13d25492b3';
+const API_KEY = '5b3ce3597851110001cf6248ed2bfaf93cbe4a9e83f21ca902eeb546';
 
+const getRandomColor = (index) => {
+    const hue = (index * 137.508) % 360;
+    return `hsl(${hue}, 70%, 50%)`;
+};
 
+const usedColors = ref([]);
+const map = ref(null);
+const routesWithPolylines = ref([]);
+
+const getRoute = async (start, end) => {
+    const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${API_KEY}&start=${start.lng},${start.lat}&end=${end.lng},${end.lat}`;
+    try {
+        const response = await axios.get(url);
+        const coords = response.data.features[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
+        return coords;
+    } catch (error) {
+        console.error('Error fetching route:', error);
+        return [];
+    }
+};
 
 const props = defineProps({
     routes: Object,
@@ -35,12 +63,14 @@ const toggleOptions = (routeId) => {
 const addroute = () => {
     routeObj.value = null;
     showModal.value = true;
+
 };
 
 const editroute = (route) => {
     openMenuId.value = null;
     routeObj.value = route;
     showModal.value = true;
+
 };
 
 const onKeydown = (e) => {
@@ -49,12 +79,113 @@ const onKeydown = (e) => {
     }
 };
 
+
 onMounted(() => {
     window.addEventListener("keydown", onKeydown);
 });
 
 onUnmounted(() => {
     window.removeEventListener("keydown", onKeydown);
+});
+
+const calculateCenter = (routes) => {
+    let totalLat = 0;
+    let totalLng = 0;
+
+    routes.forEach((route) => {
+        const latStart = parseFloat(route.latitude_start);
+        const latEnd = parseFloat(route.latitude_end);
+        const lngStart = parseFloat(route.longitude_start);
+        const lngEnd = parseFloat(route.longitude_end);
+
+        totalLat += (latStart + latEnd) / 2;
+        totalLng += (lngStart + lngEnd) / 2;
+    });
+
+    const centerLat = totalLat / routes.length;
+    const centerLng = totalLng / routes.length;
+
+    const center = [centerLat, centerLng];
+
+    return center;
+};
+
+
+
+const initializeMap = async () => {
+    const mapElement = document.getElementById('map');
+    if (mapElement) {
+        map.value = L.map('map').setView([0, 0], 10);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map.value);
+
+        if (props.routes && props.routes.data) {
+
+
+            props.routes.data.forEach((route, index) => {
+                const routeColor = getRandomColor(index); // Obtener color único basado en el índice
+
+                const startMarker = L.marker([route.latitude_start, route.longitude_start]).addTo(map.value);
+                const endMarker = L.marker([route.latitude_end, route.longitude_end]).addTo(map.value);
+
+                const center = calculateCenter(props.routes.data);
+                map.value.setView(center, 10);
+
+                const getRouteCoords = async () => {
+                    const latlngs = await getRoute(startMarker.getLatLng(), endMarker.getLatLng());
+
+                    const polyline = L.polyline(latlngs, {
+                        color: routeColor,
+                        weight: 5
+                    }).addTo(map.value);
+
+                    polyline.bindPopup(`<b>${route.name}</b>`);
+
+                    map.value.fitBounds(L.latLngBounds([startMarker.getLatLng(), endMarker.getLatLng()]), { padding: [10, 10], maxZoom: 17 });
+
+                    // Agregar evento de clic a cada marcador y resaltar la ruta correspondiente
+                    startMarker.on('click', () => {
+                        highlightRoute(startMarker, polyline);
+                    });
+
+                    endMarker.on('click', () => {
+                        highlightRoute(endMarker, polyline);
+                    });
+
+                    const startIcon = L.divIcon({
+                        className: 'custom-icon',
+                        html: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="${routeColor}"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>`,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 32]
+                    });
+
+                    const endIcon = L.divIcon({
+                        className: 'custom-icon',
+                        html: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="${routeColor}"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>`,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 32]
+                    });
+
+                    startMarker.setIcon(startIcon);
+                    endMarker.setIcon(endIcon);
+                };
+
+                getRouteCoords();
+            });
+        }
+    }
+};
+
+
+onMounted(() => {
+    try {
+        // Código de inicialización del mapa y marcadores
+        initializeMap();
+    } catch (error) {
+        console.error('Error en el gancho mounted:', error);
+    }
 });
 
 const closeModal = () => {
@@ -80,6 +211,7 @@ const deleteroute = (routeData) => {
             });
         }
     });
+
 };
 
 const search = () => {
@@ -110,7 +242,42 @@ const changeStatus = (route) => {
 };
 
 
+let selectedMarker = null;
+let selectedPolyline = null;
+
+// Función para resaltar el marcador y la ruta seleccionados
+const highlightRoute = (marker, polyline) => {
+    if (selectedMarker) {
+        selectedMarker.getElement().classList.remove('selected-marker');
+    }
+    if (selectedPolyline) {
+        selectedPolyline.setStyle({ weight: 5 }); // Restaura el grosor de la ruta
+    }
+
+    selectedMarker = marker;
+    selectedPolyline = polyline;
+
+    selectedMarker.getElement().classList.add('selected-marker');
+    selectedPolyline.setStyle({ weight: 8 }); // Aplica un grosor mayor a la ruta
+};
+
+
+
+
 </script>
+
+
+<style>
+.selected-marker {
+    transform: scale(3.5);
+    /* Aumenta el tamaño del marcador */
+}
+
+.selected-polyline {
+    stroke-width: 10px;
+    /* Aumenta el grosor de la ruta */
+}
+</style>
 
 <template>
     <AppLayout title="route">
@@ -213,8 +380,7 @@ const changeStatus = (route) => {
                                             <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
                                                 <div class="flex items-center justify-center gap-x-3">
                                                     <div class="relative group">
-                                                        <button
-                                                            :disabled="route.status === 0"
+                                                        <button :disabled="route.status === 0"
                                                             class="bg-yellow-200 text-slate-500 p-1 rounded-md hover:bg-yellow-300 cursor-pointer shadow-abajo-1"
                                                             @click="
                                                                 editroute(route)
@@ -235,8 +401,7 @@ const changeStatus = (route) => {
                                                         </button>
                                                     </div>
                                                     <div class="relative group">
-                                                        <button
-                                                            :disabled="route.status === 0"
+                                                        <button :disabled="route.status === 0"
                                                             class="bg-red-300 text-slate-500 p-1 rounded-md hover:bg-red-400 shadow-abajo-1 cursor-pointer"
                                                             @click="
                                                                 deleteroute(route)
@@ -257,9 +422,11 @@ const changeStatus = (route) => {
                                                         </span>
                                                     </div>
                                                     <div class="relative group">
-                                                        <button type="button" class="bg-orange-300 text-slate-500 p-1 rounded-md hover:bg-orange-400 shadow-abajo-1 cursor-pointer"
+                                                        <button type="button"
+                                                            class="bg-orange-300 text-slate-500 p-1 rounded-md hover:bg-orange-400 shadow-abajo-1 cursor-pointer"
                                                             @click="cambiarEstado(route)">
-                                                            <v-icon :name="route.status === 1 ? 'co-toggle-on' : 'fa-toggle-off'" />
+                                                            <v-icon
+                                                                :name="route.status === 1 ? 'co-toggle-on' : 'fa-toggle-off'" />
                                                         </button>
                                                         <span
                                                             class="absolute bottom-full mb-2 hidden group-hover:block w-auto p-2 text-xs text-white bg-sky-950 rounded-md"
@@ -335,5 +502,6 @@ const changeStatus = (route) => {
                 </div>
             </div>
         </div>
+        <div id="map" style="height: 700px;"></div>
     </AppLayout>
 </template>

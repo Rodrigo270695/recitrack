@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ref, defineProps, onMounted, onUnmounted, reactive } from "vue";
-import Pagination from "@/Components/Pagination.vue";
+import MapComponent from "@/Components/MapComponent.vue";
 import CoordForm from "./CoordForm.vue";
 import Modal from "@/Components/Modal.vue";
 import Swal from "sweetalert2";
@@ -238,6 +238,13 @@ const deleteZonecoord = (zoneCoord) => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="p-3 shadow-abajo-2">
+                        <MapComponent
+                            :initial-lat="props.lastCoord ? props.lastCoord.latitude : null"
+                            :initial-lng="props.lastCoord ? props.lastCoord.longitude : null"
+                            :zone-coords="props.zoneCoords"
+                        />
                     </div>
                     <Modal :show="showModal" maxWidth="3xl">
                         <CoordForm

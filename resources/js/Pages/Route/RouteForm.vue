@@ -26,7 +26,7 @@ const form = useForm({
 const map = ref(null);
 const markers = ref([]);
 const polyline = ref(null);
-const API_KEY = '5b3ce3597851110001cf6248a3a577bdaabf4a7f83518a13d25492b3';
+const API_KEY = '5b3ce3597851110001cf6248ed2bfaf93cbe4a9e83f21ca902eeb546';
 
 async function getRoute(start, end) {
     const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${API_KEY}&start=${start.lng},${start.lat}&end=${end.lng},${end.lat}`;

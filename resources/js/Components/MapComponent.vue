@@ -31,7 +31,7 @@ const marker = ref(null);
 
 const initializeMap = () => {
     if (mapContainer.value) {
-        const lat = props.initialLat  !== null ? props.initialLat : -6.7011;
+        const lat = props.initialLat !== null ? props.initialLat : -6.7011;
         const lng = props.initialLng !== null ? props.initialLng : -79.9061;
 
         map.value = L.map(mapContainer.value).setView([lat, lng], 13);
@@ -56,7 +56,7 @@ const initializeMap = () => {
         // Dibujar el polígono basado en las coordenadas de la zona
         if (props.zoneCoords.length > 0) {
             const polygonCoords = props.zoneCoords.map(coord => [coord.latitude, coord.longitude]);
-            L.polygon(polygonCoords, { color: 'blue' }).addTo(map.value);
+            L.polygon(polygonCoords, { color: 'red' }).addTo(map.value);
         }
 
         // Intentar obtener la ubicación actual del usuario si las coordenadas iniciales son nulas
@@ -90,7 +90,6 @@ watch([() => props.initialLat, () => props.initialLng], () => {
     if (map.value && marker.value) {
         const lat = props.initialLat !== null ? props.initialLat : -6.7011;
         const lng = props.initialLng !== null ? props.initialLng : -79.9061;
-        map.value.setView([lat, lng], 13);
         marker.value.setLatLng([lat, lng]);
     }
 });

@@ -39,4 +39,8 @@ class Vehicle extends Model
         return $this->hasMany(Vehicleoccupant::class);
     }
 
+    public function vehicleroute(): BelongsTo
+    {
+        return $this->belongsTo(Vehicleroutes::class);
+    }
 }

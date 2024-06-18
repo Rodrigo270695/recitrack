@@ -22,7 +22,7 @@ export default {
                 'arriba-xl': '9px 9px 12px #cbced1, -9px -9px 12px white',
                 'arriba-lg': '6px 6px 10px #cbced1, -6px -6px 10px white',
                 'arriba-xs': '3px 3px 6px #cbced1, -3px -3px 6px white',
-                'abajo-2': 'inset 6px 6px 6px #cbced1, inset -6px -6px 6px white',
+                'abajo-2': 'inset 4px 4px 4px #cbced1, inset -4px -4px 4px white',
                 'abajo-2-cambio': 'inset 5px 5px 5px white, inset -5px -5px 5px #cbced1',
                 'abajo-1':  '3px 3px 3px #cbced1,  -3px -3px 3px white',
             },

@@ -74,7 +74,7 @@ const deleteVehicleImage = (vehicleimage) => {
 </script>
 
 <template>
-    <AppLayout title="Brands">
+    <AppLayout title="vehicle images">
         <template #header>
             <div class="flex justify-between">
                 <h2 class="font-bold text-xl text-slate-500 ">

@@ -210,7 +210,7 @@ const goToIndex = () => {
                                                 class="text-xs md:text-base text-slate-500 whitespace-nowrap text-center flex items-center justify-center py-2"
                                             >
                                                 <img
-                                                    v-if="vehicle.vehicleimages.find(image => image.profile === 1)" 
+                                                    v-if="vehicle.vehicleimages.find(image => image.profile === 1)"
                                                     :src="vehicle.vehicleimages.find(image => image.profile === 1).image"
                                                     alt="Imagen de perfil del vehículo"
                                                     class="w-14 h-14 object-cover rounded-lg"
@@ -218,27 +218,27 @@ const goToIndex = () => {
                                                 <span v-else class="text-slate-400">Sin imagen</span>
                                             </td>
                                             <td
-                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                                class="text-xs md:text-base text-slate-500 px-1 py-3 whitespace-nowrap text-center"
                                             >
                                                 {{ vehicle.brandmodel.brand.name }}/{{ vehicle.brandmodel.name }}
                                             </td>
                                             <td
-                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                                class="text-xs md:text-base text-slate-500 px-1 py-3 whitespace-nowrap text-center"
                                             >
                                                 {{ vehicle.plate }}
                                             </td>
                                             <td
-                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                                class="text-xs md:text-base text-slate-500 px-1 py-3 whitespace-nowrap text-center"
                                             >
                                                 {{ vehicle.year }}
                                             </td>
                                             <td
-                                                class="text-xs md:text-base text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                                class="text-xs md:text-base text-slate-500 px-1 py-3 whitespace-nowrap text-center"
                                             >
                                                 {{ vehicle.status }}
                                             </td>
                                             <td
-                                                class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium"
+                                                class="py-3 whitespace-nowrap text-right text-sm font-medium"
                                             >
                                                 <div
                                                     class="flex items-center justify-center gap-x-3"

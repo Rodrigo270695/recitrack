@@ -18,7 +18,6 @@ class RouteController extends Controller
         return Inertia::render('Route/Index', compact('routes'));
     }
 
-
     public function store(RouteRequest $request): RedirectResponse
     {
         try {
@@ -41,7 +40,6 @@ class RouteController extends Controller
         }
     }
 
-
     public function destroy(Route $route): RedirectResponse
     {
         try {
@@ -51,8 +49,6 @@ class RouteController extends Controller
             return redirect()->back()->with('toast', ['No se puede eliminar la ruta, ya que tiene zonas asociadas!', 'danger']);
         }
     }
-
-
 
     public function search(Request $request): Response
     {
@@ -76,4 +72,16 @@ class RouteController extends Controller
             return redirect()->back()->with('toast', ['Ocurrió un error al cambiar el estado de la ruta!', 'danger']);
         }
     }
+
+    public function show()
+    {
+        $routes = Route::all();
+        return response()->json($routes);
+    }
+
+    /*  public function show()
+    {
+        $routes = Route::all();
+        return Inertia::render('MapaRoutes', compact('routes'));
+    } */
 }
