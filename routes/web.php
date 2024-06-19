@@ -14,7 +14,6 @@ use App\Http\Controllers\VehicleroutesController;
 use App\Http\Controllers\VehicletypeController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\ZonecoordController;
-use App\Models\Vehicleimage;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -85,5 +84,7 @@ Route::middleware([
     Route::delete('vehicle/occupants/{vehicleoccupant}', [VehicleoccupantController::class, 'destroy'])->name('vehicle.occupants.destroy');
 
     Route::get('vehicleroutes/search', [VehicleroutesController::class, 'search' ])->name('vehicleroutes.search');
+    Route::get('vehicleroutes/searchTwo', [VehicleroutesController::class, 'searchTwo' ])->name('vehicleroutes.searchTwo');
+    Route::get('vehicle/routes/{id}', [VehicleroutesController::class, 'programming' ])->name('vehicleroutes.programming');
     Route::resource('vehicleroutes', VehicleroutesController::class);
 });

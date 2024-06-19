@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vehicleroutes extends Model
@@ -12,18 +13,18 @@ class Vehicleroutes extends Model
 
     protected $guarded = [];
 
-    public function vehicles(): HasMany
+    public function vehicle(): BelongsTo
     {
-        return $this->hasMany(Vehicle::class);
+        return $this->belongsTo(Vehicle::class);
     }
 
-    public function statusroutes(): HasMany
+    public function route(): BelongsTo
     {
-        return $this->hasMany(Statusroute::class);
+        return $this->belongsTo(Route::class);
     }
 
-    public function routes(): HasMany
+    public function statusroute(): BelongsTo
     {
-        return $this->hasMany(Route::class);
+        return $this->belongsTo(Statusroute::class);
     }
 }

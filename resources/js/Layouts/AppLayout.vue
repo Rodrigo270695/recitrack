@@ -454,7 +454,7 @@ watch(showZones, (newValue) => {
                         >
                             <div class="mt-[3px] -mb-[6px] text-lg">
                                 <v-icon
-                                    name="io-desktop"
+                                    name="bi-bezier"
                                     class="text-slate-500 hover:text-slate-600 mx-[6px]"
                                 />
                                 <span class="ms-2">Programación</span>

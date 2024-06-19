@@ -16,7 +16,8 @@ import
     GiHamburgerMenu, MdMonitorTwotone, HiSolidPlusSm, HiMinusSm, BiArrowLeftShort, AiAfricarxivSquare, BiWindows, HiSolidChevronDown,
     FaBars, FaTimes, FaUserCircle, FaAngleDown, FaCog, FaSignOutAlt, IoDesktop, IoClose, IoChevronDown, FaMinus, OiApps, IoCarSportSharp,
     FaUsersCog, MdDonutlargeOutlined, PrUserPlus, RiRouteFill, MdRouteSharp, LaSortNumericDownSolid, MdInvertcolorsRound, BiBox, BiJustifyLeft,
-    BiLayoutWtf, MdPlaceRound, RiFindReplaceLine, GiMineTruck, RiImageAddFill, FaArrowLeft, FaMapMarkerAlt, CoToggleOn, FaToggleOff, HiSolidUserAdd
+    BiLayoutWtf, MdPlaceRound, RiFindReplaceLine, GiMineTruck, RiImageAddFill, FaArrowLeft, FaMapMarkerAlt, CoToggleOn, FaToggleOff, HiSolidUserAdd,
+    BiBezier
 } from "oh-vue-icons/icons";
 
 addIcons(
@@ -27,7 +28,8 @@ FaSearch, BiEyeFill, BiEyeSlashFill, GiExitDoor, MdDelete, MdChangecircleRound, 
 GiHamburgerMenu, MdMonitorTwotone, HiSolidPlusSm, HiMinusSm, BiArrowLeftShort, AiAfricarxivSquare, BiWindows, HiSolidChevronDown,
 FaBars, FaTimes, FaUserCircle, FaAngleDown, FaCog, FaSignOutAlt, IoDesktop, IoClose, IoChevronDown, FaMinus, OiApps, IoCarSportSharp,
 FaUsersCog, MdDonutlargeOutlined, PrUserPlus, RiRouteFill, MdRouteSharp, LaSortNumericDownSolid, MdInvertcolorsRound, BiBox, BiJustifyLeft,
-BiLayoutWtf, MdPlaceRound, RiFindReplaceLine, GiMineTruck, RiImageAddFill, FaArrowLeft, FaMapMarkerAlt, CoToggleOn, FaToggleOff, HiSolidUserAdd
+BiLayoutWtf, MdPlaceRound, RiFindReplaceLine, GiMineTruck, RiImageAddFill, FaArrowLeft, FaMapMarkerAlt, CoToggleOn, FaToggleOff, HiSolidUserAdd,
+BiBezier
 );
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
