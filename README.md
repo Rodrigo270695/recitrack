@@ -64,3 +64,25 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## entrar al cmd del sistema
+docker-compose exec app bash
+
+## ejecutar el comando de laravel
+php artisan migrate --seed
+
+## compilar el proyecto
+npm run build
+
+## eliminar la imagen y volumen
+docker-compose down -v
+
+# Iniciar sesión en Docker Hub
+docker login
+
+# Etiquetar la imagen
+docker tag recitrack-app miusuario/recitrack-app:v1
+
+# Subir la imagen a Docker Hub
+docker push miusuario/recitrack-app:v1

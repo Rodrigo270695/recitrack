@@ -40,7 +40,7 @@ class BrandController extends Controller
         }
     }
 
-    public function update(Request $request, Brand $brand): RedirectResponse
+    public function update(BrandRequest $request, Brand $brand): RedirectResponse
     {
         try {
             $brand->name = $request->name;

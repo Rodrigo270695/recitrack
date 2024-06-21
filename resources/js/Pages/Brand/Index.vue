@@ -227,8 +227,9 @@ const asset = (path) => {
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div> 
+                            </div>
                         </div>
+                        <!-- Versión mobile -->
                         <div class="block sm:hidden rounded-lg">
                             <div v-for="brand in brands.data" :key="brand.id"
                                 class="p-4 mx-1 mt-4 bg-blue-50 hover:bg-blue-100 rounded-lg relative shadow-abajo-1">

@@ -24,6 +24,10 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+Route::get('/register', function () {
+    return redirect('/login');
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -87,4 +91,7 @@ Route::middleware([
     Route::get('vehicleroutes/searchTwo', [VehicleroutesController::class, 'searchTwo' ])->name('vehicleroutes.searchTwo');
     Route::get('vehicle/routes/{id}', [VehicleroutesController::class, 'programming' ])->name('vehicleroutes.programming');
     Route::resource('vehicleroutes', VehicleroutesController::class);
+
+    Route:
+
 });
