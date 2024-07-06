@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BrandmodelController;
+use App\Http\Controllers\DesignController;
+use App\Http\Controllers\HoraryController;
+use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\StatusrouteController;
 use App\Http\Controllers\TypeuserController;
@@ -92,6 +96,16 @@ Route::middleware([
     Route::get('vehicle/routes/{id}', [VehicleroutesController::class, 'programming' ])->name('vehicleroutes.programming');
     Route::resource('vehicleroutes', VehicleroutesController::class);
 
-    Route:
+    Route::get('maintenances/search', [MaintenanceController::class, 'search' ])->name('maintenances.search');
+    Route::resource('maintenances', MaintenanceController::class);
 
+    Route::get('maintenances/horaries/{id}', [HoraryController::class, 'index' ])->name('maintenances.horaries.index');
+    Route::post('maintenances/horaries', [HoraryController::class, 'store'])->name('maintenances.horaries.store');
+    Route::put('maintenances/horaries/{horary}', [HoraryController::class, 'update'])->name('maintenances.horaries.update');
+    Route::delete('maintenances/horaries/{horary}', [HoraryController::class, 'destroy'])->name('maintenances.horaries.destroy');
+
+    Route::get('maintenances/horaries/activities/{id}', [ActivityController::class, 'index' ])->name('maintenances.horaries.activities.index');
+    Route::post('maintenances/horaries/activities', [ActivityController::class, 'store'])->name('maintenances.horaries.activities.store');
+    Route::put('maintenances/horaries/activities/{activity}', [ActivityController::class, 'update'])->name('maintenances.horaries.activities.update');
+    Route::delete('maintenances/horaries/activities/{activity}', [ActivityController::class, 'destroy'])->name('maintenances.horaries.activities.destroy');
 });

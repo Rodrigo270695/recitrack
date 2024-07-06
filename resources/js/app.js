@@ -17,7 +17,7 @@ import
     FaBars, FaTimes, FaUserCircle, FaAngleDown, FaCog, FaSignOutAlt, IoDesktop, IoClose, IoChevronDown, FaMinus, OiApps, IoCarSportSharp,
     FaUsersCog, MdDonutlargeOutlined, PrUserPlus, RiRouteFill, MdRouteSharp, LaSortNumericDownSolid, MdInvertcolorsRound, BiBox, BiJustifyLeft,
     BiLayoutWtf, MdPlaceRound, RiFindReplaceLine, GiMineTruck, RiImageAddFill, FaArrowLeft, FaMapMarkerAlt, CoToggleOn, FaToggleOff, HiSolidUserAdd,
-    BiBezier
+    BiBezier, MdDomainverification, BiCalendarDateFill, MdLocalactivity
 } from "oh-vue-icons/icons";
 
 addIcons(
@@ -29,7 +29,7 @@ GiHamburgerMenu, MdMonitorTwotone, HiSolidPlusSm, HiMinusSm, BiArrowLeftShort, A
 FaBars, FaTimes, FaUserCircle, FaAngleDown, FaCog, FaSignOutAlt, IoDesktop, IoClose, IoChevronDown, FaMinus, OiApps, IoCarSportSharp,
 FaUsersCog, MdDonutlargeOutlined, PrUserPlus, RiRouteFill, MdRouteSharp, LaSortNumericDownSolid, MdInvertcolorsRound, BiBox, BiJustifyLeft,
 BiLayoutWtf, MdPlaceRound, RiFindReplaceLine, GiMineTruck, RiImageAddFill, FaArrowLeft, FaMapMarkerAlt, CoToggleOn, FaToggleOff, HiSolidUserAdd,
-BiBezier
+BiBezier, MdDomainverification, BiCalendarDateFill, MdLocalactivity
 );
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';

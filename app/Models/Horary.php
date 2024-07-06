@@ -7,25 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Vehicleoccupant extends Model
+class Horary extends Model
 {
     use HasFactory;
-
     protected $guarded = [];
-
-    public function user(): BelongsTo
+    public function maintenance(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Maintenance::class);
     }
-
-
-    public function vehicle(): BelongsTo
+    public function vehicleoccupant(): BelongsTo
     {
-        return $this->belongsTo(Vehicle::class);
+        return $this->belongsTo(Vehicleoccupant::class);
     }
-
-    public function horaries(): HasMany
+    public function activities(): HasMany
     {
-        return $this->hasMany(Horary::class);
+        return $this->hasMany(Activity::class);
     }
 }

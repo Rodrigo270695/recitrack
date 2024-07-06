@@ -2,10 +2,7 @@ version: '3.9'
 
 services:
     app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        image: resitrack-app
+        image: rodrigo270695/resitrack-app:v1
         container_name: resitrack-app
         restart: unless-stopped
         working_dir: /var/www

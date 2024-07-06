@@ -26,12 +26,7 @@ class UserRequest extends FormRequest
                 Rule::unique('users')->ignore($this->route('user')),
             ],
             'birthdate' => 'nullable|date',
-            'license' => [
-                'nullable',
-                'string',
-                'max:20',
-                Rule::unique('users')->ignore($this->route('user')),
-            ],
+            'license' => 'nullable|string|max:20',
             'email' => [
                 'required',
                 'string',

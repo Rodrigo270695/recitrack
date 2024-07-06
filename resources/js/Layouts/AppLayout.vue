@@ -18,6 +18,7 @@ const showVehicles = ref(JSON.parse(localStorage.getItem('showVehicles')) || fal
 const showUsers = ref(JSON.parse(localStorage.getItem('showUsers')) || false);
 const showRoutes = ref(JSON.parse(localStorage.getItem('showRoutes')) || false);
 const showZones = ref(JSON.parse(localStorage.getItem('showZones')) || false);
+const showMaintenance = ref(JSON.parse(localStorage.getItem('showMaintenance')) || false);
 
 
 const switchToTeam = (team) => {
@@ -51,6 +52,10 @@ watch(showRoutes, (newValue) => {
 
 watch(showZones, (newValue) => {
     localStorage.setItem('showZones', JSON.stringify(newValue));
+});
+
+watch(showMaintenance, (newValue) => {
+    localStorage.setItem('showMaintenance', JSON.stringify(newValue));
 });
 
 </script>
@@ -446,6 +451,47 @@ watch(showZones, (newValue) => {
                             </NavLink>
                         </div>
                     </li>
+                    <li class="shadow-abajo-2 rounded-lg">
+                        <button
+                            @click="showMaintenance = !showMaintenance"
+                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
+                        >
+                            <div class="">
+                                <v-icon
+                                    name="md-domainverification"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                                <span class="ms-3">Mantenimiento</span>
+                            </div>
+                            <div class="">
+                                <v-icon
+                                    v-if="!showMaintenance"
+                                    name="hi-solid-plus-sm"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                                <v-icon
+                                    v-else
+                                    name="hi-minus-sm"
+                                    class="text-slate-500 hover:text-slate-600"
+                                />
+                            </div>
+                        </button>
+                        <div v-if="showMaintenance" class="flex flex-col">
+                            <NavLink
+                                :href="route('maintenances.index')"
+                                :active="route().current('maintenances.index')"
+                                class="rounded-lg"
+                            >
+                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
+                                    <v-icon
+                                        name="bi-layout-wtf"
+                                        class="text-slate-500 hover:text-slate-600 "
+                                    />
+                                    <p class="text-slate-500 ml-3">Gestionar Mantenimientos</p>
+                                </div>
+                            </NavLink>
+                        </div>
+                    </li>
                     <li class="">
                         <NavLink
                             :href="route('vehicleroutes.index')"
@@ -461,6 +507,7 @@ watch(showZones, (newValue) => {
                             </div>
                         </NavLink>
                     </li>
+
                 </ul>
             </div>
         </aside>

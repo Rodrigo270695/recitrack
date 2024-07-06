@@ -85,4 +85,4 @@ docker login
 docker tag recitrack-app miusuario/recitrack-app:v1
 
 # Subir la imagen a Docker Hub
-docker push miusuario/recitrack-app:v1
+docker push miusuario/recitrack-app:v1 
