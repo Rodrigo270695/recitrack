@@ -20,7 +20,7 @@ const form = useForm({
 
 const submit = () => {
     if (props.activity) {
-        form.put(route("horaries.activities.update", props.activity), {
+        form.put(route("maintenances.horaries.activities.update", props.activity), {
             preserveScroll: true,
             onSuccess: () => emit("close-modal"),
         });

@@ -43,7 +43,7 @@ class ActivityController extends Controller
                 'description' => $request->description,
                 'horary_id' => $request->horary_id,
             ]);
-            return redirect()->route('horaries.activities.index', $activity->horary_id)->with('toast', ['Actividad actualizada exitosamente!', 'success']);
+            return redirect()->route('maintenances.horaries.activities.index', $activity->horary_id)->with('toast', ['Actividad actualizada exitosamente!', 'success']);
         } catch (QueryException $e) {
             return redirect()->back()->with('toast', ['Ocurrió un error al actualizar la actividad!', 'danger']);
         }
