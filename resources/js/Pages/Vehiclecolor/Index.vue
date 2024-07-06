@@ -160,6 +160,12 @@ const goToIndex = () => {
                                                 scope="col"
                                                 class="px-6 py-2 text-center text-xs sm:text-base text-slate-500 uppercase tracking-wider border-l"
                                             >
+                                                Color RGB
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-6 py-2 text-center text-xs sm:text-base text-slate-500 uppercase tracking-wider border-l"
+                                            >
                                                 descripcion
                                             </th>
                                             <th scope="col" class="border-l"></th>
@@ -175,6 +181,16 @@ const goToIndex = () => {
                                                 class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap"
                                             >
                                                 {{ vehiclecolor.name }}
+                                            </td>
+                                            <td
+                                                class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap text-center"
+                                            >
+                                                <input
+                                                    type="color"
+                                                    v-model="vehiclecolor.rgb"
+                                                    class="w-14 h-10 p-1 rounded-md border border-slate-300"
+                                                    disabled
+                                                />
                                             </td>
                                             <td
                                                 class="text-xs md:text-base font-semibold text-slate-500 px-6 py-3 whitespace-nowrap text-center"

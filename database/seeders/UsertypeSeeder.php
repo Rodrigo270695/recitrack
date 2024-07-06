@@ -13,7 +13,8 @@ class UsertypeSeeder extends Seeder
         $tiposDeUsuarios = [
             "Administrador",
             "Chofer/Conductor",
-            "Reciclador"
+            "Reciclador",
+            "Ciudadano"
         ];
 
         foreach ($tiposDeUsuarios as $tipo) {

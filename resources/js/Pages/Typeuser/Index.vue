@@ -187,7 +187,7 @@ const goToIndex = () => {
                                                 <div
                                                     class="flex items-center justify-center gap-x-3"
                                                 >
-                                                    <div class="relative group">
+                                                    <div  v-if="typeuser.id !== 1 && typeuser.id !== 2 && typeuser.id !== 3 && typeuser.id !== 4" class="relative group">
                                                         <button
                                                             class="bg-yellow-200 text-slate-500 p-1 rounded-md hover:bg-yellow-300 cursor-pointer shadow-abajo-1"
                                                             @click="
@@ -212,7 +212,7 @@ const goToIndex = () => {
                                                             </span>
                                                         </button>
                                                     </div>
-                                                    <div class="relative group">
+                                                    <div v-if="typeuser.id !== 1 && typeuser.id !== 2 && typeuser.id !== 3 && typeuser.id !== 4" class="relative group">
                                                         <button
                                                             class="bg-red-300 text-slate-500 p-1 rounded-md hover:bg-red-400 shadow-abajo-1 cursor-pointer"
                                                             @click="

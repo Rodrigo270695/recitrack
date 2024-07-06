@@ -22,6 +22,7 @@ class VehiclecolorRequest extends FormRequest
                 'max:50',
                 Rule::unique('vehiclecolors')->ignore($this->route('vehiclecolor')),
             ],
+            'rgb' => 'required|string',
             'description' => 'nullable|string',
         ];
     }

@@ -9,6 +9,7 @@ use Inertia\Response;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\RouteRequest;
+use App\Models\Zone;
 
 class RouteController extends Controller
 {
@@ -79,9 +80,9 @@ class RouteController extends Controller
         return response()->json($routes);
     }
 
-    /*  public function show()
+    public function assignZonesToRoute(Route $route)
     {
-        $routes = Route::all();
-        return Inertia::render('MapaRoutes', compact('routes'));
-    } */
+        $zones = Zone::all();
+        return response()->json(['route' => $route, 'zones' => $zones]);
+    }
 }

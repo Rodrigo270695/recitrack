@@ -295,7 +295,7 @@ const goToIndex = () => {
                                                     </div>
                                                     <div class="relative group">
                                                         <button
-                                                            class="bg-violet-200 text-slate-500 p-1 rounded-md hover:bg-violet-300 shadow-abajo-1 cursor-pointer"
+                                                            class="bg-green-200 text-slate-500 p-1 rounded-md hover:bg-green-300 shadow-abajo-1 cursor-pointer"
                                                             @click="
                                                                 form.get(route('vehicleroutes.programming', { id: vehicle.id }))
                                                             "

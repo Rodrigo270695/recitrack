@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('vehiclecolors', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('rgb',7)->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

@@ -149,7 +149,7 @@ const search = () => {
                                             </td>
                                             <td class="px-3 py-3 whitespace-nowrap text-right text-sm font-medium">
                                                 <div class="flex items-center justify-center gap-x-3">
-                                                    <div class="relative group">
+                                                    <div v-if="vehicleroute.statusroute.id !== 5" class="relative group">
                                                         <button
                                                             class="bg-yellow-200 text-slate-500 p-1 rounded-md hover:bg-yellow-300 cursor-pointer shadow-abajo-1"
                                                             @click="

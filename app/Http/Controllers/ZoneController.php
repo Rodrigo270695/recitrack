@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ZoneRequest;
 use App\Models\Zone;
+use App\Models\Zonecoord;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -61,4 +62,11 @@ class ZoneController extends Controller
 
         return Inertia::render('Zone/Index', compact('zones', 'texto'));
     }
+
+    public function getAllZones()
+    {
+        $zones = Zone::with('zonecoords')->get();
+        return response()->json(['zones' => $zones]);
+    }
+
 }

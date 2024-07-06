@@ -13,6 +13,7 @@ const props = defineProps({
 const form = useForm({
     id: props.vehiclecolor ? props.vehiclecolor.id : "",
     name: props.vehiclecolor ? props.vehiclecolor.name : "",
+    rgb: props.vehiclecolor ? props.vehiclecolor.rgb : "",
     description: props.vehiclecolor ? props.vehiclecolor.description : "",
 });
 
@@ -67,6 +68,18 @@ const emit = defineEmits(["close-modal"]);
                         <InputError
                             class="w-full"
                             :message="form.errors.name"
+                        />
+                    </div>
+                    <div class="col-span-6 sm:col-span-1">
+                        <InputLabel value="Color RGB" class="text-slate-500 font-bold"/>
+                        <input
+                            type="color"
+                            v-model="form.rgb"
+                            class="w-full h-10 p-1 rounded-md border border-slate-300"
+                        />
+                        <InputError
+                            class="w-full"
+                            :message="form.errors.rgb"
                         />
                     </div>
                     <div class="col-span-6 sm:col-span-6">

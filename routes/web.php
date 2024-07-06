@@ -7,6 +7,7 @@ use App\Http\Controllers\DesignController;
 use App\Http\Controllers\HoraryController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\RouteController;
+use App\Http\Controllers\RouteZonesController;
 use App\Http\Controllers\StatusrouteController;
 use App\Http\Controllers\TypeuserController;
 use App\Http\Controllers\UserController;
@@ -108,4 +109,9 @@ Route::middleware([
     Route::post('maintenances/horaries/activities', [ActivityController::class, 'store'])->name('maintenances.horaries.activities.store');
     Route::put('maintenances/horaries/activities/{activity}', [ActivityController::class, 'update'])->name('maintenances.horaries.activities.update');
     Route::delete('maintenances/horaries/activities/{activity}', [ActivityController::class, 'destroy'])->name('maintenances.horaries.activities.destroy');
+
+    Route::get('zone/getAllZones', [ZoneController::class, 'getAllZones'])->name('zone.getAllZones');
+    Route::post('/route-zones/{routeId}', [RouteZonesController::class, 'store'])->name('routeZones.store');
+    Route::get('/route-zones/{routeId}', [RouteZonesController::class, 'getAssignedZones'])->name('routeZones.getAssignedZones');
+    Route::get('zone/{zone}/routeszone', [RouteZonesController::class, 'index'])->name('zone.routeszone.index');
 });

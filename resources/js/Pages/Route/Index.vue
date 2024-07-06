@@ -1,7 +1,3 @@
-Index.vue:
-
-
-
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ref, defineProps, onMounted, onUnmounted, reactive } from "vue";
@@ -13,8 +9,9 @@ import { useForm } from "@inertiajs/vue3";
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
+import AddZonesForm from "./AddZonesForm.vue";
 
-//const API_KEY = '5b3ce3597851110001cf6248a3a577bdaabf4a7f83518a13d25492b3';
+
 const API_KEY = '5b3ce3597851110001cf6248ed2bfaf93cbe4a9e83f21ca902eeb546';
 
 const getRandomColor = (index) => {
@@ -22,9 +19,9 @@ const getRandomColor = (index) => {
     return `hsl(${hue}, 70%, 50%)`;
 };
 
-const usedColors = ref([]);
+
 const map = ref(null);
-const routesWithPolylines = ref([]);
+const formZones = ref([]);
 
 const getRoute = async (start, end) => {
     const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${API_KEY}&start=${start.lng},${start.lat}&end=${end.lng},${end.lat}`;
@@ -41,16 +38,25 @@ const getRoute = async (start, end) => {
 const props = defineProps({
     routes: Object,
     texto: String,
+    zones: Object,
 });
+
 
 const form = useForm({
     route: Object,
+    zone: Object,
 });
 
+
+
 let routeObj = ref(null);
+let zoneObj = ref(null);
 let showModal = ref(false);
 let openMenuId = ref(null);
 let query = ref(props.texto);
+let showZonesModal = ref(false);
+
+
 
 const toggleOptions = (routeId) => {
     if (openMenuId.value === routeId) {
@@ -65,6 +71,59 @@ const addroute = () => {
     showModal.value = true;
 
 };
+
+
+
+const assignZonesToRoute = async (route) => {
+    openMenuId.value = null;
+    zoneObj.value = route;
+    showZonesModal.value = true;
+
+    try {
+        // Cargar todas las zonas
+        const allZonesResponse = await axios.get('/zone/getAllZones');
+        const allZones = allZonesResponse.data.zones;
+
+        // Cargar las zonas asignadas a la ruta
+        const assignedZonesResponse = await axios.get(`/route-zones/${route.id}`);
+        const assignedZones = assignedZonesResponse.data.zones;
+
+        // Marcar las zonas asignadas
+        formZones.value = allZones.map(zone => ({
+            ...zone,
+            selected: assignedZones.some(assignedZone => assignedZone.id === zone.id)
+        }));
+    } catch (error) {
+        console.error('Error al cargar las zonas:', error);
+    }
+};
+
+
+const registerZonesToRoute = (zones) => {
+    console.log('Zonas a registrar:', zones);
+    const zoneIds = zones.map(zone => zone.id); // Extraer solo los IDs de las zonas
+    axios.post(route("routeZones.store", { routeId: zoneObj.value.id }), { zones: zoneIds })
+        .then(response => {
+            console.log('Zonas asignadas exitosamente:', response.data);
+            showZonesModal.value = false;
+        })
+        .catch(error => {
+            console.error('Error al asignar zonas:', error);
+            console.error('Detalles del error:', error.response.data);
+        });
+};
+
+
+const loadZones = () => {
+    axios.get(route("zone.getAllZones"))
+        .then(response => {
+            formZones.value = response.data.zones;
+        })
+        .catch(error => {
+            console.error('Error al cargar las zonas:', error);
+        });
+};
+
 
 const editroute = (route) => {
     openMenuId.value = null;
@@ -110,8 +169,6 @@ const calculateCenter = (routes) => {
     return center;
 };
 
-
-
 const initializeMap = async () => {
     const mapElement = document.getElementById('map');
     if (mapElement) {
@@ -125,7 +182,7 @@ const initializeMap = async () => {
 
 
             props.routes.data.forEach((route, index) => {
-                const routeColor = getRandomColor(index); // Obtener color único basado en el índice
+                const routeColor = getRandomColor(index);
 
                 const startMarker = L.marker([route.latitude_start, route.longitude_start]).addTo(map.value);
                 const endMarker = L.marker([route.latitude_end, route.longitude_end]).addTo(map.value);
@@ -181,7 +238,6 @@ const initializeMap = async () => {
 
 onMounted(() => {
     try {
-        // Código de inicialización del mapa y marcadores
         initializeMap();
     } catch (error) {
         console.error('Error en el gancho mounted:', error);
@@ -190,6 +246,7 @@ onMounted(() => {
 
 const closeModal = () => {
     showModal.value = false;
+    showZonesModal.value = false;
     routeObj.value = null;
 };
 
@@ -260,9 +317,6 @@ const highlightRoute = (marker, polyline) => {
     selectedMarker.getElement().classList.add('selected-marker');
     selectedPolyline.setStyle({ weight: 8 }); // Aplica un grosor mayor a la ruta
 };
-
-
-
 
 </script>
 
@@ -402,6 +456,27 @@ const highlightRoute = (marker, polyline) => {
                                                     </div>
                                                     <div class="relative group">
                                                         <button :disabled="route.status === 0"
+                                                            class="bg-blue-300 text-slate-500 p-1 rounded-md hover:bg-blue-400 shadow-abajo-1 cursor-pointer"
+                                                            @click="
+                                                                assignZonesToRoute(route)
+                                                                ">
+                                                            <v-icon name="md-adsclick" />
+                                                        </button>
+                                                        <span
+                                                            class="absolute bottom-full mb-2 hidden group-hover:block w-auto p-2 text-xs text-white bg-sky-950 rounded-md"
+                                                            style="
+                                                                left: 50%;
+                                                                transform: translateX(
+                                                                    -50%
+                                                                );
+                                                                transition: opacity
+                                                                    0.3s;
+                                                            ">
+                                                            Asignar Zonas
+                                                        </span>
+                                                    </div>
+                                                    <div class="relative group">
+                                                        <button :disabled="route.status === 0"
                                                             class="bg-red-300 text-slate-500 p-1 rounded-md hover:bg-red-400 shadow-abajo-1 cursor-pointer"
                                                             @click="
                                                                 deleteroute(route)
@@ -462,7 +537,7 @@ const highlightRoute = (marker, polyline) => {
                                         Nombre:
                                         <span class="font-normal text-gray-600">{{
                                             route.name
-                                            }}</span>
+                                        }}</span>
                                     </h3>
                                 </div>
                                 <!-- Detalles de la tarjeta -->
@@ -471,7 +546,7 @@ const highlightRoute = (marker, polyline) => {
                                         <strong>Descripcion:</strong>
                                         <span class="text-gray-600 ml-1">{{
                                             route.description
-                                            }}</span>
+                                        }}</span>
                                     </p>
                                 </div>
                                 <!-- Menú de tres puntos -->
@@ -498,6 +573,10 @@ const highlightRoute = (marker, polyline) => {
                     </div>
                     <Modal :show="showModal">
                         <routeForm :route="routeObj" @close-modal="closeModal" />
+                    </Modal>
+                    <Modal :show="showZonesModal">
+                        <AddZonesForm :route="zoneObj" :formZones="formZones" @close-modal="closeModal"
+                            @register-zones="registerZonesToRoute" />
                     </Modal>
                 </div>
             </div>
